@@ -1,0 +1,224 @@
+:root {
+  --primary: rgb(41, 136, 192);
+  --secondary: rgb(228, 228, 2);
+  --foreground: rgb(91, 91, 91);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  min-height: 100vh;
+  color: var(--foreground);
+}
+
+/* Start element defaults */
+
+a {
+  text-decoration: none;
+  color: var(--primary);
+}
+a:hover {
+  text-decoration: underline;
+  color: var(--secondary);
+}
+
+button {
+  cursor: pointer;
+}
+/* End element defaults */
+
+/* Start utilities */
+.shadow {
+  box-shadow: 0 1px 10px rgb(47, 45, 45);
+}
+
+.btn {
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.5rem;
+}
+.btn-primary {
+  color: var(--primary);
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.rounded-lg {
+  border-radius: 1rem;
+}
+
+.border-primary {
+  border: 1px solid var(--primary);
+}
+
+.border-secondary {
+  border: 1px solid var(--secondary);
+}
+.rounded-lg {
+  border-radius: 1.3rem;
+}
+.rounded-xl {
+  border-radius: 1.5rem;
+}
+
+.text-primary {
+  color: var(--primary);
+}
+.text-white {
+  color: white;
+}
+.text-lg {
+  font-size: 1.4rem;
+}
+.text-md {
+  font-size: medium;
+}
+.text-xl {
+  font-size: 1.8rem;
+}
+.text-sm {
+  font-size: small;
+}
+.text-secondary {
+  color: var(--secondary);
+}
+.my-10 {
+  margin-block: 7rem;
+}
+.my-5 {
+  margin-block: 4rem;
+}
+.my-3 {
+  margin-block: 1.2rem;
+}
+.py-10 {
+  padding-block: 7rem;
+}
+.py-5 {
+  padding-block: 4rem;
+}
+.py-3 {
+  padding-block: 2rem;
+}
+
+.btn-primary:hover {
+  background: var(--primary);
+}
+
+.btn-secondary {
+  color: var(--secondary);
+  border-color: var(--secondary);
+  background-color: var(--secondary);
+}
+
+.btn-secondary:hover {
+  background: var(--secondary);
+}
+
+.btn-hollow {
+  border: 1px solid;
+  background-color: white;
+}
+.btn-hollow:hover {
+  color: white;
+}
+/* Start utilities */
+
+.container {
+  max-width: 1000px;
+  padding-inline: 1rem;
+  margin-inline: auto;
+}
+/* end utilities */
+
+/* start custom clases */
+
+.hero-banner {
+  height: 400px;
+  display: flex;
+  justify-content: start;
+  background-size: cover;
+  align-items: center;
+  background-image: url("../media/banner.jpg");
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-banner div {
+  z-index: 5;
+}
+.hero-banner::after {
+  position: absolute;
+  content: "";
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: gray;
+  opacity: 0.4;
+  z-index: 1;
+}
+.logo {
+  font-size: 1rem;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topics-section h3 {
+  text-align: center;
+}
+
+.topics-section .topics-section__topics {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.topics-section .topics-section__topics button {
+  border-radius: 1rem;
+}
+.claim-previews {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.claim-preview-card {
+  border-radius: 1.3rem;
+  padding: 0.5rem;
+  border: 1px solid var(--foreground);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5px;
+  justify-content: center;
+  overflow: hidden;
+}
+.claim-preview-card img {
+  border-radius: 1.3rem;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.claim-preview-card h3 {
+  font-weight: 700;
+}
+.claim-preview-card .date {
+  font-size: smaller;
+}
+.claim-preview-card .stats {
+  display: flex;
+  gap: 2rem;
+  font-size: small;
+}
+
+.footer {
+  background: var(--primary);
+  padding-block: 3rem;
+  color: white;
+  text-align: center;
+}
+/* end custom clases */
