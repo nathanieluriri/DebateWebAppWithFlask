@@ -1,10 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, g
+import sqlite3
 
-# Create a Flask app instance
 app = Flask(__name__)
 
 
-# Define routes directly
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -15,6 +14,7 @@ def about():
     return render_template("about.html")
 
 
-# Run the app
+
+
 if __name__ == "__main__":
     app.run(debug=True)
