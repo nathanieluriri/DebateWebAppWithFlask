@@ -10,13 +10,13 @@ def home():
 
 
 # Topic route
-@app.route("/topic/<string:topic>")
+@app.route("/<string:topic>")
 def topic(topic):
     return render_template("topic.html", topic=topic)
 
 
 # Catch-all route for nested claims
-@app.route("/topic/<string:topic>/<path:claimpath>")
+@app.route("/<string:topic>/<path:claimpath>")
 def claim(topic, claimpath):
     return render_template("claim.html", topic=topic, claimpath=claimpath)
 
