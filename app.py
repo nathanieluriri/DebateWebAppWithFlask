@@ -33,10 +33,16 @@ def home():
     return render_template("index.html")
 
 
-# About route
-@app.route("/about", methods=["GET"])
-def about():
-    return render_template("about.html")
+# Topic route
+@app.route("/<string:topic>", methods=["GET"])
+def topic(topic):
+    return render_template("topic.html", topic=topic)
+
+
+# Catch-all route for nested claims
+@app.route("/<string:topic>/<path:claimpath>", methods=["GET"])
+def claim(topic, claimpath):
+    return render_template("claim.html", topic=topic, claimpath=claimpath)
 
 
 # Route to fetch all topics
