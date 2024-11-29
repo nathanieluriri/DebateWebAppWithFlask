@@ -1,0 +1,88 @@
+{% extends "layout.html" %} {% block title %} Topic {% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/topic.css') }}">
+
+{% endblock %}
+{% block content %}
+<div class="topic-banner">
+    <div class="container">
+
+        <h1>Discuss and Debate #<span id='topic-name'>{{topic}}</span></h1>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Obcaecati suscipit laboriosam dignissimos, ab quam
+            nemo
+            ducimus minus provident optio dicta, enim, eius sunt? Aut.</p>
+    </div>
+</div>
+<div class="container my-5">
+
+    <h3>All Claims For {{topic}}</h3>
+    <div class="claim-previews">
+        <div class="claim-preview-card">
+            <img src="{{ url_for('static', filename='media/claim-illustration.jpg') }}" alt="claim" />
+            <div>
+                <h3>Lorem ipsum dolor sit amet.</h3>
+                <p class="stats">
+                    <span>33 Claims</span>
+                    <span>41 replies</span>
+                </p>
+                <p class="date">21/12/2024</p>
+            </div>
+        </div>
+        <div class="claim-preview-card">
+            <img src="{{ url_for('static', filename='media/claim-illustration.jpg') }}" alt="claim" />
+            <div>
+                <h3>Lorem ipsum dolor sit amet.</h3>
+                <p class="stats">
+                    <span>33 Claims</span>
+                    <span>41 Claims</span>
+                </p>
+                <p class="date">21/12/2024</p>
+            </div>
+        </div>
+        <div class="claim-preview-card">
+            <img src="{{ url_for('static', filename='media/claim-illustration.jpg') }}" alt="claim" />
+            <div>
+                <h3>Lorem ipsum dolor sit amet.</h3>
+                <p class="stats">
+                    <span>33 Claims</span>
+                    <span>41 Claims</span>
+                </p>
+                <p class="date">21/12/2024</p>
+            </div>
+        </div>
+        <div class="claim-preview-card">
+            <img src="{{ url_for('static', filename='media/claim-illustration.jpg') }}" alt="claim" />
+            <div>
+                <h3>Lorem ipsum dolor sit amet.</h3>
+                <p class="stats">
+                    <span>33 Claims</span>
+                    <span>41 Claims</span>
+                </p>
+                <p class="date">21/12/2024</p>
+            </div>
+        </div>
+        <div class="claim-preview-card">
+            <img src="{{ url_for('static', filename='media/claim-illustration.jpg') }}" alt="claim" />
+            <div>
+                <h3>Lorem ipsum dolor sit amet.</h3>
+                <p class="stats">
+                    <span>33 Claims</span>
+                    <span>41 Claims</span>
+                </p>
+                <p class="date">21/12/2024</p>
+            </div>
+        </div>
+        <div class="claim-preview-card">
+            <img src="{{ url_for('static', filename='media/claim-illustration.jpg') }}" alt="claim" />
+            <div>
+                <h3>Lorem ipsum dolor sit amet.</h3>
+                <p class="stats">
+                    <span>33 Claims</span>
+                    <span>41 Claims</span>
+                </p>
+                <p class="date">21/12/2024</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

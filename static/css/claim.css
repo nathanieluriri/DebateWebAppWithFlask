@@ -1,0 +1,177 @@
+.claim {
+  all: unset;
+  display: block;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.claim:hover {
+  text-decoration: none;
+  color: initial;
+}
+
+.claim.main:hover {
+  outline: 1px solid var(--primary);
+}
+.claim h3 {
+  font-weight: normal;
+}
+
+.claim.main:hover h3 {
+  color: var(--primary);
+}
+
+.claim .header {
+  display: flex;
+  width: full;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user {
+  display: flex;
+  flex: 1;
+  justify-content: start;
+  align-items: center;
+  gap: 1rem;
+}
+.user img {
+  background-color: rgb(245, 242, 242);
+  border-radius: 100%;
+  padding: 0.3rem;
+}
+
+.user a {
+  font-size: small;
+}
+.user .data {
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+}
+.user .data span {
+  font-size: small;
+}
+
+.claim .header button {
+  all: unset;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.claim .header button:hover {
+  font-weight: bold;
+  color: var(--primary);
+}
+.sub-claims {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.claim.opposition:hover .heading {
+  color: red;
+}
+.claim.equivalent:hover .heading {
+  color: green;
+}
+
+.claim.equivalent:hover {
+  outline: 1px solid green;
+}
+.claim.opposition:hover {
+  outline: 1px solid red;
+}
+
+.main-claim {
+  background-image: url("/static/media/topic-banner.jpg");
+  color: white;
+  height: 300px;
+  background-size: cover;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+.equivalent-header,
+.opposing-header {
+  background-color: white;
+  border-radius: 1rem;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.equivalent-header:hover {
+  outline: 1px solid green;
+}
+.opposing-header:hover {
+  outline: 1px solid red;
+}
+
+.equivalent-header h3,
+.opposing-header h3 {
+  flex-grow: 1;
+  margin-block: 0;
+  text-align: center;
+}
+.equivalent-header h3 {
+  color: green;
+}
+.opposing-header h3 {
+  color: red;
+}
+.equivalent-header button {
+  background-color: green;
+  color: white;
+  border-radius: 0.4rem;
+  border: none;
+  padding: 0.3rem 0.5rem;
+}
+.opposing-header button {
+  background-color: red;
+  color: white;
+  border-radius: 0.4rem;
+  border: none;
+  padding: 0.3rem 0.5rem;
+}
+
+.claim .replies {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background: rgb(249, 244, 244);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.claim .replies h3 {
+  text-align: center;
+  margin-block: 0;
+  font-weight: bold;
+}
+.claim .replies .reply-tag {
+  color: var(--primary);
+  font-weight: bold;
+}
+.claim .replies .reply {
+  border: 1px solid gray;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+.reply .nested-replies {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background: rgb(210, 207, 207);
+  padding: 1rem;
+  padding-left: 2rem;
+  border-radius: 0.5rem;
+  margin-top: 1.5rem;
+}
+.reply .nested-reply {
+  border: 1px solid white;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}

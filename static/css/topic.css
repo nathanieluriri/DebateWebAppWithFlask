@@ -1,0 +1,9 @@
+.topic-banner {
+  background-image: url("/static/media/topic-banner.jpg");
+  color: white;
+  height: 300px;
+  background-size: cover;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}

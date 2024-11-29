@@ -1,19 +1,24 @@
-from flask import Flask, render_template, g
-import sqlite3
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
 
+# Home route
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
-@app.route("/about")
-def about():
-    return render_template("about.html")
+# Topic route
+@app.route("/topic/<string:topic>")
+def topic(topic):
+    return render_template("topic.html", topic=topic)
 
 
+# Catch-all route for nested claims
+@app.route("/topic/<string:topic>/<path:claimpath>")
+def claim(topic, claimpath):
+    return render_template("claim.html", topic=topic, claimpath=claimpath)
 
 
 if __name__ == "__main__":

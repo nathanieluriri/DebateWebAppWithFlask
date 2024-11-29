@@ -9,10 +9,13 @@ body {
   margin: 0;
   box-sizing: border-box;
   padding: 0;
-  min-height: 100vh;
   color: var(--foreground);
+  background-color: rgb(234, 244, 250);
 }
 
+main {
+  min-height: 70vh;
+}
 /* Start element defaults */
 
 a {
@@ -136,6 +139,7 @@ button {
 
 .hero-banner {
   height: 400px;
+  padding: 1rem;
   display: flex;
   justify-content: start;
   background-size: cover;
@@ -162,11 +166,14 @@ button {
 .logo {
   font-size: 1rem;
 }
-
 .navbar {
+  background: white;
+  border-radius: 0.5rem;
+  padding-inline: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-block: 1rem;
 }
 
 .topics-section h3 {
@@ -184,7 +191,7 @@ button {
 }
 .claim-previews {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
 }
 .claim-preview-card {
@@ -192,13 +199,22 @@ button {
   padding: 0.5rem;
   border: 1px solid var(--foreground);
   display: flex;
+  background-color: rgb(238, 238, 238);
   flex-direction: column;
+  transition: background-color 1s, color 1s;
   gap: 0.5px;
   justify-content: center;
   overflow: hidden;
 }
+
+.claim-preview-card:hover {
+  background: var(--primary);
+  color: white;
+}
+
 .claim-preview-card img {
   border-radius: 1.3rem;
+
   width: 100%;
   height: 100%;
   object-fit: cover;
