@@ -19,25 +19,34 @@
           <h1 class="text-md">Debate Forum</h1>
         </a>
         <button
-          data-modal-id="auth"
-          id="modal-trigger"
-          class="btn btn-primary btn-hollow"
+          data-modal-id="login"
+          id="login-btn"
+          class="btn btn-primary btn-hollow modal-trigger hidden"
         >
           Login
         </button>
+        <button class="btn btn-danger btn-hollow hidden" id="logout-btn">
+          Logout
+        </button>
       </nav>
     </header>
-    <div class="modal" id="auth">
-      <div class="modal-overlay" data-modal-id="auth"></div>
+    <!-- Start Login Modal -->
+
+    <div class="modal" data-modal-id="login">
+      <div
+        class="modal-overlay"
+        data-modal-id="login"
+        data-modal-id="create-account"
+      ></div>
       <div class="modal-body">
         <h3 class="title">
           <span>Log In</span>
-          <button class="close-btn" data-modal-id="auth">X</button>
+          <button class="close-btn" data-modal-id="login">X</button>
         </h3>
-        <form id="'login-form">
+        <form id="login-form">
           <label for="" class="form-control">
             <span class="label">Username</span>
-            <input type="text" name="username" />
+            <input type="text" name="userName" />
           </label>
           <label for="" class="form-control">
             <span class="label">Password</span>
@@ -46,9 +55,51 @@
           <button type="submit" class="btn btn-primary text-white w-full mt-sm">
             Submit
           </button>
+          <p>
+            Don't have an account?
+            <span
+              class="text-primary modal-trigger"
+              data-modal-id="create-account"
+            >
+              Create Account
+            </span>
+          </p>
         </form>
       </div>
     </div>
+    <!-- End Login Modal  -->
+    <!-- Start Create Account Modal  -->
+    <div class="modal" data-modal-id="create-account">
+      <div class="modal-overlay" data-modal-id="create-account"></div>
+      <div class="modal-body">
+        <h3 class="title">
+          <span>Create Account</span>
+          <button class="close-btn" data-modal-id="create-account">X</button>
+        </h3>
+        <form id="create-account-form">
+          <label for="" class="form-control">
+            <span class="label">Username</span>
+            <input type="text" name="userName" />
+          </label>
+          <label for="" class="form-control">
+            <span class="label">Password</span>
+            <input type="text" name="password" />
+          </label>
+          <button type="submit" class="btn btn-primary text-white w-full mt-sm">
+            Submit
+          </button>
+          <p>
+            Already have an account?<span
+              class="text-primary modal-trigger"
+              data-modal-id="login"
+            >
+              Log In</span
+            >
+          </p>
+        </form>
+      </div>
+    </div>
+    <!-- End Create Account Modal  -->
     <main>{% block content %}{% endblock %}</main>
     <footer class="footer">
       <div class="container">

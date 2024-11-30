@@ -13,16 +13,25 @@ content %}
 <div class="container py-3">
   <div class="topics-section">
     <h3 class="text-primary">Topics</h3>
-    <div class="my-3 topics-section__topics">
-      <button class="btn btn-primary btn-hollow">topic</button>
-      <button class="btn btn-primary btn-hollow">topic</button>
-      <button class="btn btn-primary btn-hollow">topic</button>
-      <button class="btn btn-primary btn-hollow">topic</button>
-      <button class="btn btn-primary btn-hollow">topic</button>
-      <button class="btn btn-primary btn-hollow">topic</button>
-      <button class="btn btn-primary btn-hollow">topic</button>
-      <button class="btn btn-primary btn-hollow">topic</button>
-      <button class="btn btn-primary btn-hollow">topic</button>
+    <div class="my-3 topics-section__topics"></div>
+
+    <div class="modal" data-modal-id="create-topic">
+      <div class="modal-overlay" data-modal-id="create-topic"></div>
+      <div class="modal-body">
+        <h3 class="title">
+          <span>Create Topic</span>
+          <button class="close-btn" data-modal-id="create-topic">X</button>
+        </h3>
+        <form id="create-topic-form">
+          <label for="" class="form-control">
+            <span class="label">Title</span>
+            <input type="text" name="userName" />
+          </label>
+          <button type="submit" class="btn btn-primary text-white w-full mt-sm">
+            Submit
+          </button>
+        </form>
+      </div>
     </div>
   </div>
   <h3>Recent Claims</h3>
@@ -113,4 +122,6 @@ content %}
     </div>
   </div>
 </div>
-{% endblock%}
+{% endblock%} {%block scripts%}
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+{%endblock%}
