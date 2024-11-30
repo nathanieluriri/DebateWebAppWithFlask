@@ -1,6 +1,0 @@
-create_user = POST 201 params { userName,password}
-login = POST 200 params {userName,password}
-get_all_topics = GET 200 params {}
-get_claim_count_per_topic = GET 200 params {}
-get_claims_for_topic/int<Topic Id> =GET 200 params (topic id)
-create_claim = POST 201 params {"topicID":2,"userID":4,"text":"Ai is increasing more dangerous than we thought"}
