@@ -76,6 +76,7 @@ $(document).ready(function () {
         thisForm[0].reset();
         setCookie("isLoggedIn", true);
         alert("Account Created Successfully");
+        window.location = window.location;
       },
       error: function (jqXHR) {
         alert(jqXHR.responseJSON.error || "Something went wrong.");
