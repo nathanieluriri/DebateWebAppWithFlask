@@ -67,15 +67,19 @@ def get_all_topics():
 # Flask endpoint to create a topic
 @app.route("/create_topic", methods=["POST"])
 def create_topic():
-    if session['userID']==None:
-        print("_________________________________________________")
+    try:
+        if not session['userID']:
+            print("_________________________________________________")
+            return redirect(url_for('home'))
+    except KeyError:
         return redirect(url_for('home'))
+
     data = request.get_json()  # Extract data from the POST request
 
-    if not data or "user_id" not in data or "topic_name" not in data:
-        return jsonify({"error": "Missing user_id or topic_name"}), 400
+    if not data or "topic_name" not in data:
+        return jsonify({"error": " topic_name"}), 400
 
-    user_id = data["user_id"]
+    user_id = session["userID"]
     topic_name = data["topic_name"]
 
     try:
@@ -88,8 +92,9 @@ def create_topic():
 # Flask endpoint to handle the creation of a claim relationship
 @app.route("/create_claim_relationship", methods=["POST"])
 def create_claim_relationship():
-    if session['userID']==None:
-        print("_________________________________________________")
+    try:
+        ui = session['userID']
+    except KeyError:
         return redirect(url_for('home'))
     data = request.get_json()  # Extract data from the POST request
     # Extract data from the request
@@ -276,8 +281,9 @@ def logout():
 # Endpoint to create a claim
 @app.route("/create_claim", methods=["POST"])
 def create_claim():
-    if session['userID']==None:
-        print("_________________________________________________")
+    try:
+        ui = session['userID']
+    except KeyError:
         return redirect(url_for('home'))
     # Parse the JSON data from the request
     
@@ -359,8 +365,9 @@ def get_claim_count_per_topic_endpoint():
 
 @app.route("/create_reply", methods=["POST"])
 def create_reply():
-    if session['userID']==None:
-        print("_________________________________________________")
+    try:
+        ui = session['userID']
+    except KeyError:
         return redirect(url_for('home'))
     # Get the data from the request
     data = request.get_json()
