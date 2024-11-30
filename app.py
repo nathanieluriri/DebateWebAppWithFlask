@@ -1,3 +1,4 @@
+from datetime import timedelta
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 import time
 from Controller.claimToClaim import insert_claim_to_claim
@@ -17,6 +18,7 @@ from Controller.reply import (
     insert_reply_to_claim,
     insert_reply_to_reply,
 )
+from Controller.updateClaim import update_claim_updateTime
 from Controller.updateLastVisit import update_last_visit
 from Controller.userDb import insert_user_to_db, user_exists_in_db
 from doc_routes import docs
@@ -24,6 +26,7 @@ from doc_routes import docs
 app = Flask(__name__)
 app.secret_key = "helloworld"
 app.register_blueprint(docs, url_prefix="/docs")
+app.permanent_session_lifetime = timedelta(days=7)
 
 
 # Home route
@@ -64,6 +67,9 @@ def get_all_topics():
 # Flask endpoint to create a topic
 @app.route("/create_topic", methods=["POST"])
 def create_topic():
+    if session['userID']==None:
+        print("_________________________________________________")
+        return redirect(url_for('home'))
     data = request.get_json()  # Extract data from the POST request
 
     if not data or "user_id" not in data or "topic_name" not in data:
@@ -82,27 +88,34 @@ def create_topic():
 # Flask endpoint to handle the creation of a claim relationship
 @app.route("/create_claim_relationship", methods=["POST"])
 def create_claim_relationship():
+    if session['userID']==None:
+        print("_________________________________________________")
+        return redirect(url_for('home'))
     data = request.get_json()  # Extract data from the POST request
     # Extract data from the request
-    topicID = data.get("topicID")
-    userID = data.get("userID")
+    topicID =session['topicID']
+    userID = session['userID']
     claimText = data.get("text")
+    first_claim= session['claimID']
+    update_claim_updateTime(first_claim)
+
 
     # Validate that all required fields are present
-    if not topicID or not userID or not claimText:
-        return jsonify({"error": "topicID, userID, and text are required"}), 400
+    if not claimText:
+        return jsonify({"error": " text is required"}), 400
 
     # Call the function to insert the claim into the database
 
     try:
         # Validate required fields
-        if not data or "first" not in data or "claimRelType" not in data:
+        if not data  or "claimRelType" not in data:
             return (
-                jsonify({"error": "Missing required fields: first or claimRelType"}),
+                jsonify({"error": "Missing required fields: claimRelType"}),
                 400,
             )
 
-        first_claim_id = data["first"]
+      
+        
         second_claim_id = insert_claim(topicID, userID, claimText)
         claim_rel_type = data["claimRelType"]
         if "e" in claim_rel_type:
@@ -111,7 +124,7 @@ def create_claim_relationship():
             claim_rel_type = 1
         # Insert into the database
         success, error_message = insert_claim_to_claim(
-            first_claim_id, second_claim_id, claim_rel_type
+            first_claim, second_claim_id, claim_rel_type
         )
 
         if success:
@@ -140,6 +153,9 @@ def fetch_related_claims():
         return jsonify({"error": "Missing required field: first_claim_id"}), 400
 
     first_claim_id = data["first_claim_id"]
+    session['claimID']=data['first_claim_id']
+ 
+
 
     # Fetch related claims
     related_claims, error = get_related_claims(first_claim_id)
@@ -149,8 +165,8 @@ def fetch_related_claims():
 
     if not related_claims:
         return (
-            jsonify({"message": "No related claims found for the given first claim."}),
-            404,
+            jsonify([]),
+            200,
         )
     formatted_replies = [
         {
@@ -165,7 +181,7 @@ def fetch_related_claims():
     ]
 
     return (
-        jsonify({"related_claims": formatted_replies}),
+        jsonify(formatted_replies),
         200,
     )  # Return successful response
 
@@ -199,7 +215,7 @@ def create_user():
         user_id = insert_user_to_db(
             userName, passwordHash, isAdmin, creationTime, lastVisit
         )
-        session["userId"] = user_id
+        session["userID"] = user_id
         return (
             jsonify({"message": "User created successfully"}),
             201,
@@ -240,33 +256,42 @@ def login_user():
 
     # Update the last visit timestamp for the user
     update_last_visit(user["userID"])
+    session.permanent = True 
 
     # Return a success response
-    session["userId"] = user["userID"]
+    session["userID"] = user["userID"]
+    
 
     return jsonify({"message": "Login successful", "userID": user["userID"]}), 200
 
 
 @app.route("/logout")
 def logout():
-    session.pop("userId", None)
+    session.pop("userID", None)
+    session.pop("topicID",None)
+    session.pop("claimID",None)
     return redirect(url_for("home"))
 
 
 # Endpoint to create a claim
 @app.route("/create_claim", methods=["POST"])
 def create_claim():
+    if session['userID']==None:
+        print("_________________________________________________")
+        return redirect(url_for('home'))
     # Parse the JSON data from the request
+    
     data = request.get_json()
 
     # Extract data from the request
-    topicID = data.get("topicID")
-    userID = data.get("userID")
+    topicID = session['topicID']
+    userID = session["userID"]
     claimText = data.get("text")
 
+
     # Validate that all required fields are present
-    if not topicID or not userID or not claimText:
-        return jsonify({"error": "topicID, userID, and text are required"}), 400
+    if   not claimText:
+        return jsonify({"error": "text is required"}), 400
 
     # Call the function to insert the claim into the database
     try:
@@ -283,6 +308,7 @@ def create_claim():
 @app.route("/get_claims_for_topic/<int:topicID>", methods=["GET"])
 def get_claims_for_topic_endpoint(topicID):
     # Fetch claims for the given topicID
+    session['topicID']=topicID
     claims = get_claims_for_topic(topicID)
 
     # If no claims are found, return an error
@@ -333,16 +359,21 @@ def get_claim_count_per_topic_endpoint():
 
 @app.route("/create_reply", methods=["POST"])
 def create_reply():
+    if session['userID']==None:
+        print("_________________________________________________")
+        return redirect(url_for('home'))
     # Get the data from the request
     data = request.get_json()
 
     reply_text = data.get("text")
-    user_id = data.get("userID")
+    user_id = session["userID"]
     reply_type = data.get("replyType")
     relationship_type = data.get("relationshipType")
+    first_claim= session['claimID']
+    update_claim_updateTime(first_claim)
 
     # Ensure that the required fields are provided
-    if not reply_text or not user_id or not reply_type or not relationship_type:
+    if not reply_text  or not reply_type or not relationship_type:
         return jsonify({"error": "Missing required fields"}), 400
 
     # Get the current Unix timestamp for creationTime

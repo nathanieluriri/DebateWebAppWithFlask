@@ -1,5 +1,4 @@
 import sqlite3
-import pprint
 
 def get_replies_by_claim_id(claim_id):
     db_connection = sqlite3.connect('debate.sqlite')
