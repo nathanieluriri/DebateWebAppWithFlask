@@ -688,3 +688,148 @@ def create_claim_docs():
             }
         }
     })
+
+
+
+@docs.route('/get_replies_by_claim_id', methods=['GET'])
+def get_replies_by_claim_id_docs():
+    return jsonify({
+        "route": "/get_replies_by_claim_id",
+        "method": "POST",
+        "description": "Retrieves all replies for a specific claim ID. This endpoint accepts a POST request with a claim_id in the request body and returns a list of replies related to that claim.",
+        "request_body": {
+            "type": "json",
+            "required": "true",
+            "description": "The request body must contain a JSON object with the claim_id field to specify which claim to retrieve replies for.",
+            "fields": {
+                "claim_id": {
+                    "type": "integer",
+                    "description": "The ID of the claim for which replies are being fetched.",
+                    "required": "true"
+                }
+            }
+        },
+        "response": {
+            "201": {
+                "description": "Returns a list of replies associated with the claim.",
+                "body": {
+                    "replies": [
+                        {
+                            "replyTextID": 123,
+                            "creationTime": "2024-11-28T14:23:45",
+                            "text": "This is a reply text.",
+                            "userName": "user1",
+                            "claimReplyType": "Support"
+                        },
+                        {
+                            "replyTextID": 124,
+                            "creationTime": "2024-11-28T15:00:00",
+                            "text": "This is another reply text.",
+                            "userName": "user2",
+                            "claimReplyType": "Oppose"
+                        }
+                    ]
+                }
+            },
+            "400": {
+                "description": "Bad request due to missing claim_id field in the request.",
+                "body": {
+                    "error": {
+                        "type": "string",
+                        "example": "Missing required field: claim_id"
+                    }
+                }
+            },
+            "404": {
+                "description": "No replies found for the given claim_id.",
+                "body": {
+                    "message": {
+                        "type": "string",
+                        "example": "No replies found for the given claim."
+                    }
+                }
+            },
+            "500": {
+                "description": "Server error occurred while fetching the replies.",
+                "body": {
+                    "error": {
+                        "type": "string",
+                        "example": "Database error occurred while fetching replies"
+                    }
+                }
+            }
+        }
+    })
+
+
+@docs.route('/get_replies_by_parent_id', methods=['GET'])
+def get_replies_by_parent_id_docs():
+    return jsonify({
+        "route": "/get_replies_by_parent_id",
+        "method": "POST",
+        "description": "Retrieves all replies for a specific parent reply ID. This endpoint accepts a POST request with a parent_id in the request body and returns a list of replies related to that parent.",
+        "request_body": {
+            "type": "json",
+            "required": "true",
+            "description": "The request body must contain a JSON object with the parent_id field to specify which parent reply to retrieve replies for.",
+            "fields": {
+                "parent_id": {
+                    "type": "integer",
+                    "description": "The ID of the parent reply for which replies are being fetched.",
+                    "required": "true"
+                }
+            }
+        },
+        "response": {
+            "201": {
+                "description": "Returns a list of replies associated with the parent reply.",
+                "body": {
+                    "replies": [
+                        {
+                            "replyTextID": 123,
+                            "creationTime": "2024-11-28T14:23:45",
+                            "text": "This is a reply to the parent.",
+                            "userName": "user1",
+                            "replyReplyType": "Support",
+                            "parentUserName": "user3"
+                        },
+                        {
+                            "replyTextID": 124,
+                            "creationTime": "2024-11-28T15:00:00",
+                            "text": "This is another reply to the parent.",
+                            "userName": "user2",
+                            "replyReplyType": "Oppose",
+                            "parentUserName": "user3"
+                        }
+                    ]
+                }
+            },
+            "400": {
+                "description": "Bad request due to missing parent_id field in the request.",
+                "body": {
+                    "error": {
+                        "type": "string",
+                        "example": "Missing required field: parent_id"
+                    }
+                }
+            },
+            "404": {
+                "description": "No replies found for the given parent_id.",
+                "body": {
+                    "message": {
+                        "type": "string",
+                        "example": "No replies found for the given parent."
+                    }
+                }
+            },
+            "500": {
+                "description": "Server error occurred while fetching the replies.",
+                "body": {
+                    "error": {
+                        "type": "string",
+                        "example": "Database error occurred while fetching replies"
+                    }
+                }
+            }
+        }
+    })

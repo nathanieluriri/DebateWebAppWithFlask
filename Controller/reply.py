@@ -3,14 +3,14 @@ import sqlite3
 
 REPLY_TYPE_MAPPER = {
     "claim": {
-        "Supporting Argument": 1,
-        "Clarification": 2,
+        "Supporting Argument": 2,
+        "Clarification": 1,
         "Counterargument": 3
     },
     "reply": {
         "Evidence": 1,
-        "Rebuttal": 2,
-        "Further Explanation": 3
+        "Rebuttal": 3,
+        "Support": 2
     }
 }
 

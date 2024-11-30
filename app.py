@@ -8,6 +8,7 @@ from Controller.getClaimsFromTopicId import (
     get_claims_for_topic,
 )
 from Controller.getRelatedClaims import get_related_claims
+from Controller.getReplies import get_replies_by_claim_id, get_replies_by_parent_id
 from Controller.password import hash_password_pbkdf2, verify_password
 from Controller.queryDb import query_db
 from Controller.reply import (
@@ -151,9 +152,20 @@ def fetch_related_claims():
             jsonify({"message": "No related claims found for the given first claim."}),
             404,
         )
+    formatted_replies = [
+        {
+            "claimId": reply[0],
+            "text": reply[1],
+            "username": reply[2],
+            "creationTime": reply[3],
+            "updateTime": reply[4],
+            "relationshipType": reply[5]
+        }
+        for reply in related_claims
+    ]
 
     return (
-        jsonify({"related_claims": related_claims}),
+        jsonify({"related_claims": formatted_replies}),
         200,
     )  # Return successful response
 
@@ -373,6 +385,82 @@ def create_reply():
 
     # Return a success message
     return jsonify({"message": "Reply created successfully"}), 201
+
+
+
+# Flask endpoint to fetch replies by claim_id
+@app.route("/get_replies_by_claim_id", methods=["POST"])
+def fetch_replies_by_claim_id():
+    # Ensure request is AJAX (JSON)
+    if not request.is_json:
+        return jsonify({"error": "Invalid request. Only JSON requests are allowed."}), 400
+
+    data = request.get_json()
+
+    # Validate required field
+    if "claim_id" not in data:
+        return jsonify({"error": "Missing required field: claim_id"}), 400
+
+    claim_id = data["claim_id"]
+
+    # Fetch replies by claim_id
+    replies = get_replies_by_claim_id(claim_id)
+
+    if not replies:
+        return jsonify({"message": "No replies found for the given claim."}), 404
+
+    # Format the replies (optional: you can transform the data here if needed)
+    formatted_replies = [
+        {
+            "replyTextID": reply[0],
+            "creationTime": reply[1],
+            "text": reply[2],
+            "userName": reply[3],
+            "relationshipType": reply[4],
+            "hasChild":get_replies_by_parent_id(reply[0])!=[]
+        }
+        for reply in replies
+    ]
+
+    return jsonify({"replies": formatted_replies}), 200
+
+
+# Flask endpoint to fetch replies by parent_id
+@app.route("/get_replies_by_parent_id", methods=["POST"])
+def fetch_replies_by_parent_id():
+    # Ensure request is AJAX (JSON)
+    if not request.is_json:
+        return jsonify({"error": "Invalid request. Only JSON requests are allowed."}), 400
+
+    data = request.get_json()
+
+    # Validate required field
+    if "parent_id" not in data:
+        return jsonify({"error": "Missing required field: parent_id"}), 400
+
+    parent_id = data["parent_id"]
+
+    # Fetch replies by parent_id
+    replies = get_replies_by_parent_id(parent_id)
+
+    if not replies:
+        return jsonify({"message": "No replies found for the given parent."}), 404
+
+    # Format the replies (optional: you can transform the data here if needed)
+    formatted_replies = [
+        {
+            "replyTextID": reply[0],
+            "creationTime": reply[1],
+            "text": reply[2],
+            "userName": reply[3],
+            "relationshipType": reply[4],
+            "parentUserName": reply[5],
+            "hasChild":get_replies_by_parent_id(reply[0])!=[]
+        }
+        for reply in replies
+    ]
+
+    return jsonify({"replies": formatted_replies}), 200
 
 
 @app.route("/docs")
