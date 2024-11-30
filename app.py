@@ -10,6 +10,7 @@ from Controller.getClaimsFromTopicId import (
 )
 from Controller.getRelatedClaims import get_related_claims
 from Controller.getReplies import get_replies_by_claim_id, get_replies_by_parent_id
+from Controller.getSingleTopic import get_topic_by_id
 from Controller.password import hash_password_pbkdf2, verify_password
 from Controller.queryDb import query_db
 from Controller.reply import (
@@ -314,6 +315,13 @@ def create_claim():
     except Exception as e:
         return jsonify({"error": str(e)}), 500  # Return error if something goes wrong
 
+@app.route("/get_specific_topic/<int:topicID>", methods=["GET"])
+def get_specific_topic(topicID):
+    topicInfo = get_topic_by_id(topic_id=topicID)
+    if topicInfo:
+        return jsonify(topicInfo),200
+    else:
+        return jsonify({"Message":"No resource found","status code":404}), 404
 
 # Endpoint to get claims for a specific topic
 @app.route("/get_claims_for_topic/<int:topicID>", methods=["GET"])
