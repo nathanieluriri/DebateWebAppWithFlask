@@ -9,10 +9,13 @@ body {
   margin: 0;
   box-sizing: border-box;
   padding: 0;
-  min-height: 100vh;
   color: var(--foreground);
+  background-color: rgb(234, 244, 250);
 }
 
+main {
+  min-height: 70vh;
+}
 /* Start element defaults */
 
 a {
@@ -33,7 +36,9 @@ button {
 .shadow {
   box-shadow: 0 1px 10px rgb(47, 45, 45);
 }
-
+.w-full {
+  width: 100%;
+}
 .btn {
   padding: 0.4rem 0.6rem;
   border-radius: 0.5rem;
@@ -43,7 +48,27 @@ button {
   border-color: var(--primary);
   background-color: var(--primary);
 }
+.btn-primary:hover {
+  background: var(--primary);
+}
 
+.btn-secondary {
+  color: var(--secondary);
+  border-color: var(--secondary);
+  background-color: var(--secondary);
+}
+
+.btn-secondary:hover {
+  background: var(--secondary);
+}
+
+.btn-hollow {
+  border: 1px solid;
+  background-color: white;
+}
+.btn-hollow:hover {
+  color: white;
+}
 .rounded-lg {
   border-radius: 1rem;
 }
@@ -89,6 +114,9 @@ button {
 .my-5 {
   margin-block: 4rem;
 }
+.mt-sm {
+  margin-top: 0.5rem;
+}
 .my-3 {
   margin-block: 1.2rem;
 }
@@ -100,28 +128,6 @@ button {
 }
 .py-3 {
   padding-block: 2rem;
-}
-
-.btn-primary:hover {
-  background: var(--primary);
-}
-
-.btn-secondary {
-  color: var(--secondary);
-  border-color: var(--secondary);
-  background-color: var(--secondary);
-}
-
-.btn-secondary:hover {
-  background: var(--secondary);
-}
-
-.btn-hollow {
-  border: 1px solid;
-  background-color: white;
-}
-.btn-hollow:hover {
-  color: white;
 }
 /* Start utilities */
 
@@ -136,6 +142,7 @@ button {
 
 .hero-banner {
   height: 400px;
+  padding: 1rem;
   display: flex;
   justify-content: start;
   background-size: cover;
@@ -162,11 +169,14 @@ button {
 .logo {
   font-size: 1rem;
 }
-
 .navbar {
+  background: white;
+  border-radius: 0.5rem;
+  padding-inline: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-block: 1rem;
 }
 
 .topics-section h3 {
@@ -184,7 +194,7 @@ button {
 }
 .claim-previews {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
 }
 .claim-preview-card {
@@ -192,13 +202,22 @@ button {
   padding: 0.5rem;
   border: 1px solid var(--foreground);
   display: flex;
+  background-color: rgb(238, 238, 238);
   flex-direction: column;
+  transition: background-color 1s, color 1s;
   gap: 0.5px;
   justify-content: center;
   overflow: hidden;
 }
+
+.claim-preview-card:hover {
+  background: var(--primary);
+  color: white;
+}
+
 .claim-preview-card img {
   border-radius: 1.3rem;
+
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -221,4 +240,68 @@ button {
   color: white;
   text-align: center;
 }
+.modal {
+  display: none;
+}
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.507);
+  backdrop-filter: blur(2px);
+}
+.modal-body {
+  inset: 50% 0 0 50%;
+  transform: translateX(-50%) translateY(-50%);
+  position: absolute;
+  background-color: rgb(245, 247, 248);
+  padding: 1rem;
+  border-radius: 1rem;
+  max-width: 400px;
+  max-height: max-content;
+}
+.modal .title {
+  font-size: large;
+  color: var(--primary);
+  text-align: center;
+  display: flex;
+  margin-block: 0;
+}
+.modal .title span {
+  flex-grow: 1;
+}
+.modal .title button {
+  all: unset;
+  color: var(--foreground);
+  font-weight: normal;
+  cursor: pointer;
+}
+.modal .title button:hover {
+  color: red;
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.form-control span.label {
+  font-size: small;
+  color: var(--primary);
+}
+
+.form-control input {
+  outline: 1px solid lightgray;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+}
+.form-control input:focus {
+  outline: 1px solid var(--primary);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
 /* end custom clases */

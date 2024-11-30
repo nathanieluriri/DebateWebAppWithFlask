@@ -1,100 +1,116 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %} {% block title %} Home {% endblock%} {% block
+content %}
 
-{% block title %} Home {% endblock%}
-
-{% block content %}
-
-<div class="hero-banner container rounded-lg ">
+<div class="container">
+  <div class="hero-banner rounded-lg">
     <div class="text-white">
-        <h1 class="text-xl">Welcome To Debate Forum</h1>
-        <p class="text-lg"> select a topic to get started</p>
+      <h1 class="text-xl">Welcome To Debate Forum</h1>
+      <p class="text-lg">select a topic to get started</p>
     </div>
+  </div>
 </div>
 
 <div class="container py-3">
-    <div class="topics-section">
-        <h3 class="text-primary">Topics</h3>
-        <div class="my-3 topics-section__topics">
-            <button class="btn btn-primary btn-hollow">topic</button>
-            <button class="btn btn-primary btn-hollow">topic</button>
-            <button class="btn btn-primary btn-hollow">topic</button>
-            <button class="btn btn-primary btn-hollow">topic</button>
-            <button class="btn btn-primary btn-hollow">topic</button>
-            <button class="btn btn-primary btn-hollow">topic</button>
-            <button class="btn btn-primary btn-hollow">topic</button>
-            <button class="btn btn-primary btn-hollow">topic</button>
-            <button class="btn btn-primary btn-hollow">topic</button>
-        </div>
+  <div class="topics-section">
+    <h3 class="text-primary">Topics</h3>
+    <div class="my-3 topics-section__topics">
+      <button class="btn btn-primary btn-hollow">topic</button>
+      <button class="btn btn-primary btn-hollow">topic</button>
+      <button class="btn btn-primary btn-hollow">topic</button>
+      <button class="btn btn-primary btn-hollow">topic</button>
+      <button class="btn btn-primary btn-hollow">topic</button>
+      <button class="btn btn-primary btn-hollow">topic</button>
+      <button class="btn btn-primary btn-hollow">topic</button>
+      <button class="btn btn-primary btn-hollow">topic</button>
+      <button class="btn btn-primary btn-hollow">topic</button>
     </div>
-    <div class="claim-previews">
-
-        <div class="claim-preview-card">
-            <img src="{{ url_for('static', filename='media/claim-illustration.jpg') }}" alt="claim">
-            <div>
-                <h3>Lorem ipsum dolor sit amet.</h3>
-                <p class="stats">
-                    <span>33 Claims</span>
-                    <span>41 Claims</span>
-                </p>
-                <p class="date">21/12/2024</p>
-            </div>
-        </div>
-        <div class="claim-preview-card">
-            <img src="{{ url_for('static', filename='media/claim-illustration.jpg') }}" alt="claim">
-            <div>
-                <h3>Lorem ipsum dolor sit amet.</h3>
-                <p class="stats">
-                    <span>33 Claims</span>
-                    <span>41 Claims</span>
-                </p>
-                <p class="date">21/12/2024</p>
-            </div>
-        </div>
-        <div class="claim-preview-card">
-            <img src="{{ url_for('static', filename='media/claim-illustration.jpg') }}" alt="claim">
-            <div>
-                <h3>Lorem ipsum dolor sit amet.</h3>
-                <p class="stats">
-                    <span>33 Claims</span>
-                    <span>41 Claims</span>
-                </p>
-                <p class="date">21/12/2024</p>
-            </div>
-        </div>
-        <div class="claim-preview-card">
-            <img src="{{ url_for('static', filename='media/claim-illustration.jpg') }}" alt="claim">
-            <div>
-                <h3>Lorem ipsum dolor sit amet.</h3>
-                <p class="stats">
-                    <span>33 Claims</span>
-                    <span>41 Claims</span>
-                </p>
-                <p class="date">21/12/2024</p>
-            </div>
-        </div>
-        <div class="claim-preview-card">
-            <img src="{{ url_for('static', filename='media/claim-illustration.jpg') }}" alt="claim">
-            <div>
-                <h3>Lorem ipsum dolor sit amet.</h3>
-                <p class="stats">
-                    <span>33 Claims</span>
-                    <span>41 Claims</span>
-                </p>
-                <p class="date">21/12/2024</p>
-            </div>
-        </div>
-        <div class="claim-preview-card">
-            <img src="{{ url_for('static', filename='media/claim-illustration.jpg') }}" alt="claim">
-            <div>
-                <h3>Lorem ipsum dolor sit amet.</h3>
-                <p class="stats">
-                    <span>33 Claims</span>
-                    <span>41 Claims</span>
-                </p>
-                <p class="date">21/12/2024</p>
-            </div>
-        </div>
+  </div>
+  <h3>Recent Claims</h3>
+  <div class="claim-previews">
+    <div class="claim-preview-card">
+      <img
+        src="{{ url_for('static', filename='media/claim-illustration.jpg') }}"
+        alt="claim"
+      />
+      <div>
+        <h3>Lorem ipsum dolor sit amet.</h3>
+        <p class="stats">
+          <span>33 Claims</span>
+          <span>41 replies</span>
+        </p>
+        <p class="date">21/12/2024</p>
+      </div>
     </div>
-
+    <div class="claim-preview-card">
+      <img
+        src="{{ url_for('static', filename='media/claim-illustration.jpg') }}"
+        alt="claim"
+      />
+      <div>
+        <h3>Lorem ipsum dolor sit amet.</h3>
+        <p class="stats">
+          <span>33 Claims</span>
+          <span>41 Claims</span>
+        </p>
+        <p class="date">21/12/2024</p>
+      </div>
+    </div>
+    <div class="claim-preview-card">
+      <img
+        src="{{ url_for('static', filename='media/claim-illustration.jpg') }}"
+        alt="claim"
+      />
+      <div>
+        <h3>Lorem ipsum dolor sit amet.</h3>
+        <p class="stats">
+          <span>33 Claims</span>
+          <span>41 Claims</span>
+        </p>
+        <p class="date">21/12/2024</p>
+      </div>
+    </div>
+    <div class="claim-preview-card">
+      <img
+        src="{{ url_for('static', filename='media/claim-illustration.jpg') }}"
+        alt="claim"
+      />
+      <div>
+        <h3>Lorem ipsum dolor sit amet.</h3>
+        <p class="stats">
+          <span>33 Claims</span>
+          <span>41 Claims</span>
+        </p>
+        <p class="date">21/12/2024</p>
+      </div>
+    </div>
+    <div class="claim-preview-card">
+      <img
+        src="{{ url_for('static', filename='media/claim-illustration.jpg') }}"
+        alt="claim"
+      />
+      <div>
+        <h3>Lorem ipsum dolor sit amet.</h3>
+        <p class="stats">
+          <span>33 Claims</span>
+          <span>41 Claims</span>
+        </p>
+        <p class="date">21/12/2024</p>
+      </div>
+    </div>
+    <div class="claim-preview-card">
+      <img
+        src="{{ url_for('static', filename='media/claim-illustration.jpg') }}"
+        alt="claim"
+      />
+      <div>
+        <h3>Lorem ipsum dolor sit amet.</h3>
+        <p class="stats">
+          <span>33 Claims</span>
+          <span>41 Claims</span>
+        </p>
+        <p class="date">21/12/2024</p>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock%}
