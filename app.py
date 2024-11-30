@@ -98,7 +98,10 @@ def create_claim_relationship():
         return redirect(url_for('home'))
     data = request.get_json()  # Extract data from the POST request
     # Extract data from the request
-    topicID =session['topicID']
+    try:
+        topicID =session['topicID']
+    except KeyError:
+        return redirect(url_for('home'))
     userID = session['userID']
     claimText = data.get("text")
     first_claim= session['claimID']
@@ -290,13 +293,19 @@ def create_claim():
     data = request.get_json()
 
     # Extract data from the request
-    topicID = session['topicID']
-    userID = session["userID"]
+    try:
+        topicID = session['topicID']
+    except KeyError:
+        return redirect(url_for('home'))
+    try:
+        userID = session["userID"]
+    except KeyError:
+        return redirect(url_for('home'))
     claimText = data.get("text")
 
 
     # Validate that all required fields are present
-    if   not claimText:
+    if not claimText:
         return jsonify({"error": "text is required"}), 400
 
     # Call the function to insert the claim into the database
@@ -370,6 +379,10 @@ def create_reply():
     except KeyError:
         return redirect(url_for('home'))
     # Get the data from the request
+    try:
+        ci =session['claimID']
+    except KeyError:
+        return redirect(url_for('home'))
     data = request.get_json()
 
     reply_text = data.get("text")
