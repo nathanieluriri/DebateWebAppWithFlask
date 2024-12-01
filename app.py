@@ -81,9 +81,9 @@ def get_all_topics():
 @app.route("/create_topic", methods=["POST"])
 def create_topic():
     try:
-        if not session["userID"]:
+        if not session['userID']:
             print("_________________________________________________")
-            return redirect(url_for("home"))
+            return redirect(url_for('home'))
     except KeyError:
         return redirect(url_for("home"))
 
