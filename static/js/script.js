@@ -28,7 +28,7 @@ function setCookie(name, value, days = 7, path = "/") {
   // Set the cookie with name, value, expiration, and path
   document.cookie = `${name}=${value}; ${expires}; path=${path}`;
 }
-let isLoggedIn = Boolean(getCookie("isLoggedIn"));
+let isLoggedIn = Boolean(getCookie("userID"));
 
 const getDate = () => {
   // Replace with the desired timestamp
@@ -57,7 +57,7 @@ $(document).ready(function () {
   }
 
   $("#logout-btn").on("click", () => {
-    deleteCookie("isLoggedIn");
+    deleteCookie("userID");
     window.location = window.location;
   });
 
@@ -89,7 +89,7 @@ $(document).ready(function () {
       data: data, // Send the JSON string as data
       success: function (data, textStatus, jqXHR) {
         thisForm[0].reset();
-        setCookie("isLoggedIn", true);
+        setCookie("userID", data.userID);
         alert("Account Created Successfully");
         window.location = window.location;
       },
@@ -110,7 +110,8 @@ $(document).ready(function () {
       url: "/login",
       data: data, // Send the JSON string as data
       success: function (data, textStatus, jqXHR) {
-        setCookie("isLoggedIn", true);
+        setCookie("userID", data.userID);
+        console.log(data);
         window.location = window.location;
         thisForm[0].reset();
         alert("Log in Successfull");

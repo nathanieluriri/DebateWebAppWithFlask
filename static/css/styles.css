@@ -220,15 +220,28 @@ button {
   flex-direction: column;
   transition: background-color 1s, color 1s;
   gap: 0.5px;
-  justify-content: center;
+  /* justify-content: center; */
   overflow: hidden;
 }
 
 .claim-preview-card:hover {
   background: var(--primary);
-  color: white;
+  color: white !important;
 }
-
+.claim-preview-card:hover a {
+  color: white !important;
+}
+.claim-preview-card .img-container {
+  height: 200px;
+}
+.claim-preview-card .text-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+.claim-preview-card .text-container h3 {
+  flex-grow: 1;
+}
 .claim-preview-card img {
   border-radius: 1.3rem;
   width: 100%;
@@ -240,6 +253,7 @@ button {
 }
 .claim-preview-card .date {
   font-size: smaller;
+  display: inline-block;
 }
 .claim-preview-card .stats {
   display: flex;
@@ -310,13 +324,15 @@ button {
   color: var(--primary);
 }
 
-.form-control input {
+.form-control input,
+.form-control select {
   outline: 1px solid lightgray;
   padding: 0.5rem;
   border-radius: 0.5rem;
   border: none;
 }
-.form-control input:focus {
+.form-control input:focus,
+.form-control select:focus {
   outline: 1px solid var(--primary);
   padding: 0.5rem;
   border-radius: 0.5rem;

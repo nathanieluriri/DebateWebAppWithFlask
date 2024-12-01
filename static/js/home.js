@@ -38,7 +38,7 @@ $(document).ready(function () {
       data: data, // Send the JSON string as data
       success: function (data, textStatus, jqXHR) {
         thisForm[0].reset();
-        setCookie("isLoggedIn", true);
+
         alert("Topic Created Successfully");
         renderTopics();
       },

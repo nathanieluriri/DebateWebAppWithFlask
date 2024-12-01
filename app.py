@@ -39,15 +39,26 @@ def home():
 
 
 # Topic route
-@app.route("/<string:topicId>", methods=["GET"])
-def topic(topicId):
-    return render_template("topic.html", topicId=topicId)
+@app.route("/<string:topicID>", methods=["GET"])
+def topic(topicID):
+    return render_template("topic.html", topicID=topicID)
 
 
-# Catch-all route for nested claims
-@app.route("/<string:topic>/<path:claimpath>", methods=["GET"])
-def claim(topic, claimpath):
-    return render_template("claim.html", topic=topic, claimpath=claimpath)
+@app.route("/<string:topicID>/<string:firstClaimID>", methods=["GET"])
+def firstClaim(topicID, firstClaimID):
+    return render_template("claim.html", topicID=topicID, firstClaimID=firstClaimID)
+
+
+@app.route(
+    "/<string:topicID>/<string:firstClaimID>/<string:secondClaimID>", methods=["GET"]
+)
+def secondClaim(topicID, firstClaimID, secondClaimID):
+    return render_template(
+        "claim.html",
+        topicID=topicID,
+        firstClaimID=firstClaimID,
+        secondClaimID=secondClaimID,
+    )
 
 
 # Route to fetch all topics
