@@ -10,6 +10,7 @@ from Controller.getClaimsFromTopicId import (
 )
 from Controller.getRelatedClaims import get_related_claims
 from Controller.getReplies import get_replies_by_claim_id, get_replies_by_parent_id
+from Controller.getSingleTopic import get_topic_by_id
 from Controller.password import hash_password_pbkdf2, verify_password
 from Controller.queryDb import query_db
 from Controller.reply import (
@@ -98,18 +99,17 @@ def create_claim_relationship():
         return redirect(url_for("home"))
     data = request.get_json()  # Extract data from the POST request
     # Extract data from the request
-    try:
-        topicID = session["topicID"]
-    except KeyError:
-        return redirect(url_for("home"))
+
+    topicID = data.get("topicID")
+
     userID = session["userID"]
     claimText = data.get("text")
-    first_claim = session["claimID"]
+    first_claim = data.get("claimID")
     update_claim_updateTime(first_claim)
 
     # Validate that all required fields are present
     if not claimText:
-        return jsonify({"error": " text is required"}), 400
+        return jsonify({"error": " topicID, claimID and text is required"}), 400
 
     # Call the function to insert the claim into the database
 
@@ -158,7 +158,6 @@ def fetch_related_claims():
         return jsonify({"error": "Missing required field: first_claim_id"}), 400
 
     first_claim_id = data["first_claim_id"]
-    session["claimID"] = data["first_claim_id"]
 
     # Fetch related claims
     related_claims, error = get_related_claims(first_claim_id)
@@ -270,8 +269,7 @@ def login_user():
 @app.route("/logout")
 def logout():
     session.pop("userID", None)
-    session.pop("topicID", None)
-    session.pop("claimID", None)
+
     return redirect(url_for("home"))
 
 
@@ -287,10 +285,8 @@ def create_claim():
     data = request.get_json()
 
     # Extract data from the request
-    try:
-        topicID = session["topicID"]
-    except KeyError:
-        return redirect(url_for("home"))
+    topicID = data.get("topicID")
+
     try:
         userID = session["userID"]
     except KeyError:
@@ -299,7 +295,7 @@ def create_claim():
 
     # Validate that all required fields are present
     if not claimText:
-        return jsonify({"error": "text is required"}), 400
+        return jsonify({"error": "topicID and text is required"}), 400
 
     # Call the function to insert the claim into the database
     try:
@@ -312,11 +308,20 @@ def create_claim():
         return jsonify({"error": str(e)}), 500  # Return error if something goes wrong
 
 
+@app.route("/get_specific_topic/<int:topicID>", methods=["GET"])
+def get_specific_topic(topicID):
+    topicInfo = get_topic_by_id(topic_id=topicID)
+    if topicInfo:
+        return jsonify(topicInfo), 200
+    else:
+        return jsonify({"Message": "No resource found", "status code": 404}), 404
+
+
 # Endpoint to get claims for a specific topic
 @app.route("/get_claims_for_topic/<int:topicID>", methods=["GET"])
 def get_claims_for_topic_endpoint(topicID):
     # Fetch claims for the given topicID
-    session["topicID"] = topicID
+
     claims = get_claims_for_topic(topicID)
 
     # If no claims are found, return an error
@@ -372,17 +377,14 @@ def create_reply():
     except KeyError:
         return redirect(url_for("home"))
     # Get the data from the request
-    try:
-        ci = session["claimID"]
-    except KeyError:
-        return redirect(url_for("home"))
+
     data = request.get_json()
 
     reply_text = data.get("text")
     user_id = session["userID"]
     reply_type = data.get("replyType")
     relationship_type = data.get("relationshipType")
-    first_claim = session["claimID"]
+    first_claim = data.get("claimID")
     update_claim_updateTime(first_claim)
 
     # Ensure that the required fields are provided
