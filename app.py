@@ -38,9 +38,9 @@ def home():
 
 
 # Topic route
-@app.route("/<string:topic>", methods=["GET"])
-def topic(topic):
-    return render_template("topic.html", topic=topic)
+@app.route("/<string:topicId>", methods=["GET"])
+def topic(topicId):
+    return render_template("topic.html", topicId=topicId)
 
 
 # Catch-all route for nested claims
@@ -68,11 +68,11 @@ def get_all_topics():
 @app.route("/create_topic", methods=["POST"])
 def create_topic():
     try:
-        if not session['userID']:
+        if not session["userID"]:
             print("_________________________________________________")
-            return redirect(url_for('home'))
+            return redirect(url_for("home"))
     except KeyError:
-        return redirect(url_for('home'))
+        return redirect(url_for("home"))
 
     data = request.get_json()  # Extract data from the POST request
 
@@ -93,20 +93,19 @@ def create_topic():
 @app.route("/create_claim_relationship", methods=["POST"])
 def create_claim_relationship():
     try:
-        ui = session['userID']
+        ui = session["userID"]
     except KeyError:
-        return redirect(url_for('home'))
+        return redirect(url_for("home"))
     data = request.get_json()  # Extract data from the POST request
     # Extract data from the request
     try:
-        topicID =session['topicID']
+        topicID = session["topicID"]
     except KeyError:
-        return redirect(url_for('home'))
-    userID = session['userID']
+        return redirect(url_for("home"))
+    userID = session["userID"]
     claimText = data.get("text")
-    first_claim= session['claimID']
+    first_claim = session["claimID"]
     update_claim_updateTime(first_claim)
-
 
     # Validate that all required fields are present
     if not claimText:
@@ -116,14 +115,12 @@ def create_claim_relationship():
 
     try:
         # Validate required fields
-        if not data  or "claimRelType" not in data:
+        if not data or "claimRelType" not in data:
             return (
                 jsonify({"error": "Missing required fields: claimRelType"}),
                 400,
             )
 
-      
-        
         second_claim_id = insert_claim(topicID, userID, claimText)
         claim_rel_type = data["claimRelType"]
         if "e" in claim_rel_type:
@@ -161,9 +158,7 @@ def fetch_related_claims():
         return jsonify({"error": "Missing required field: first_claim_id"}), 400
 
     first_claim_id = data["first_claim_id"]
-    session['claimID']=data['first_claim_id']
- 
-
+    session["claimID"] = data["first_claim_id"]
 
     # Fetch related claims
     related_claims, error = get_related_claims(first_claim_id)
@@ -183,7 +178,7 @@ def fetch_related_claims():
             "username": reply[2],
             "creationTime": reply[3],
             "updateTime": reply[4],
-            "relationshipType": reply[5]
+            "relationshipType": reply[5],
         }
         for reply in related_claims
     ]
@@ -264,11 +259,10 @@ def login_user():
 
     # Update the last visit timestamp for the user
     update_last_visit(user["userID"])
-    session.permanent = True 
+    session.permanent = True
 
     # Return a success response
     session["userID"] = user["userID"]
-    
 
     return jsonify({"message": "Login successful", "userID": user["userID"]}), 200
 
@@ -276,8 +270,8 @@ def login_user():
 @app.route("/logout")
 def logout():
     session.pop("userID", None)
-    session.pop("topicID",None)
-    session.pop("claimID",None)
+    session.pop("topicID", None)
+    session.pop("claimID", None)
     return redirect(url_for("home"))
 
 
@@ -285,24 +279,23 @@ def logout():
 @app.route("/create_claim", methods=["POST"])
 def create_claim():
     try:
-        ui = session['userID']
+        ui = session["userID"]
     except KeyError:
-        return redirect(url_for('home'))
+        return redirect(url_for("home"))
     # Parse the JSON data from the request
-    
+
     data = request.get_json()
 
     # Extract data from the request
     try:
-        topicID = session['topicID']
+        topicID = session["topicID"]
     except KeyError:
-        return redirect(url_for('home'))
+        return redirect(url_for("home"))
     try:
         userID = session["userID"]
     except KeyError:
-        return redirect(url_for('home'))
+        return redirect(url_for("home"))
     claimText = data.get("text")
-
 
     # Validate that all required fields are present
     if not claimText:
@@ -323,7 +316,7 @@ def create_claim():
 @app.route("/get_claims_for_topic/<int:topicID>", methods=["GET"])
 def get_claims_for_topic_endpoint(topicID):
     # Fetch claims for the given topicID
-    session['topicID']=topicID
+    session["topicID"] = topicID
     claims = get_claims_for_topic(topicID)
 
     # If no claims are found, return an error
@@ -375,25 +368,25 @@ def get_claim_count_per_topic_endpoint():
 @app.route("/create_reply", methods=["POST"])
 def create_reply():
     try:
-        ui = session['userID']
+        ui = session["userID"]
     except KeyError:
-        return redirect(url_for('home'))
+        return redirect(url_for("home"))
     # Get the data from the request
     try:
-        ci =session['claimID']
+        ci = session["claimID"]
     except KeyError:
-        return redirect(url_for('home'))
+        return redirect(url_for("home"))
     data = request.get_json()
 
     reply_text = data.get("text")
     user_id = session["userID"]
     reply_type = data.get("replyType")
     relationship_type = data.get("relationshipType")
-    first_claim= session['claimID']
+    first_claim = session["claimID"]
     update_claim_updateTime(first_claim)
 
     # Ensure that the required fields are provided
-    if not reply_text  or not reply_type or not relationship_type:
+    if not reply_text or not reply_type or not relationship_type:
         return jsonify({"error": "Missing required fields"}), 400
 
     # Get the current Unix timestamp for creationTime
@@ -438,13 +431,15 @@ def create_reply():
     return jsonify({"message": "Reply created successfully"}), 201
 
 
-
 # Flask endpoint to fetch replies by claim_id
 @app.route("/get_replies_by_claim_id", methods=["POST"])
 def fetch_replies_by_claim_id():
     # Ensure request is AJAX (JSON)
     if not request.is_json:
-        return jsonify({"error": "Invalid request. Only JSON requests are allowed."}), 400
+        return (
+            jsonify({"error": "Invalid request. Only JSON requests are allowed."}),
+            400,
+        )
 
     data = request.get_json()
 
@@ -468,7 +463,7 @@ def fetch_replies_by_claim_id():
             "text": reply[2],
             "userName": reply[3],
             "relationshipType": reply[4],
-            "hasChild":get_replies_by_parent_id(reply[0])!=[]
+            "hasChild": get_replies_by_parent_id(reply[0]) != [],
         }
         for reply in replies
     ]
@@ -481,7 +476,10 @@ def fetch_replies_by_claim_id():
 def fetch_replies_by_parent_id():
     # Ensure request is AJAX (JSON)
     if not request.is_json:
-        return jsonify({"error": "Invalid request. Only JSON requests are allowed."}), 400
+        return (
+            jsonify({"error": "Invalid request. Only JSON requests are allowed."}),
+            400,
+        )
 
     data = request.get_json()
 
@@ -506,7 +504,7 @@ def fetch_replies_by_parent_id():
             "userName": reply[3],
             "relationshipType": reply[4],
             "parentUserName": reply[5],
-            "hasChild":get_replies_by_parent_id(reply[0])!=[]
+            "hasChild": get_replies_by_parent_id(reply[0]) != [],
         }
         for reply in replies
     ]

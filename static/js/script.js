@@ -30,6 +30,21 @@ function setCookie(name, value, days = 7, path = "/") {
 }
 let isLoggedIn = Boolean(getCookie("isLoggedIn"));
 
+const getDate = () => {
+  // Replace with the desired timestamp
+  const timestamp = 1732812437;
+  const date = new Date(timestamp * 1000);
+
+  // Format the date as MM/DD/YY
+  const formattedDate = `${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}/${date.getDate().toString().padStart(2, "0")}/${date
+    .getFullYear()
+    .toString()
+    .slice(2)}`;
+  return formattedDate;
+};
+
 // root executable code
 $(document).ready(function () {
   // show or hide logout and login buttons depending on user session

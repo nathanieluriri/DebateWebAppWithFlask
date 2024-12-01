@@ -27,4 +27,26 @@ $(document).ready(function () {
   };
 
   renderTopics();
+
+  $("#create-topic-form").on("submit", function (e) {
+    e.preventDefault();
+    const thisForm = $(this);
+    const data = serializeFormData(thisForm);
+    console.log("Serialized data:", data);
+    $.post({
+      url: "/create_topic",
+      data: data, // Send the JSON string as data
+      success: function (data, textStatus, jqXHR) {
+        thisForm[0].reset();
+        setCookie("isLoggedIn", true);
+        alert("Topic Created Successfully");
+        renderTopics();
+      },
+      error: function (jqXHR) {
+        alert(jqXHR.responseJSON.error || "Something went wrong.");
+      },
+      contentType: "application/json", // Specify content type as JSON
+      dataType: "json", // Specify expected response data type
+    });
+  });
 });
