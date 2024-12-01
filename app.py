@@ -349,7 +349,7 @@ def get_claims_for_topic_endpoint(topicID):
             "creationTime": claim[3],
             "updateTime": claim[4],
             "text": claim[5],
-            "userName":claim[6]
+            "userName": claim[6],
         }
         for claim in claims
     ]
@@ -468,7 +468,7 @@ def fetch_replies_by_claim_id():
     replies = get_replies_by_claim_id(claim_id)
 
     if not replies:
-        return jsonify({"message": "No replies found for the given claim."}), 404
+        return jsonify([]), 200
 
     # Format the replies (optional: you can transform the data here if needed)
     formatted_replies = [
@@ -483,7 +483,7 @@ def fetch_replies_by_claim_id():
         for reply in replies
     ]
 
-    return jsonify({"replies": formatted_replies}), 200
+    return jsonify(formatted_replies), 200
 
 
 # Flask endpoint to fetch replies by parent_id
@@ -508,7 +508,7 @@ def fetch_replies_by_parent_id():
     replies = get_replies_by_parent_id(parent_id)
 
     if not replies:
-        return jsonify({"message": "No replies found for the given parent."}), 404
+        return jsonify([]), 200
 
     # Format the replies (optional: you can transform the data here if needed)
     formatted_replies = [
@@ -524,7 +524,7 @@ def fetch_replies_by_parent_id():
         for reply in replies
     ]
 
-    return jsonify({"replies": formatted_replies}), 200
+    return jsonify(formatted_replies), 200
 
 
 @app.route("/docs")

@@ -141,21 +141,29 @@
   border: none;
   padding: 0.3rem 0.5rem;
 }
-
 .claim .replies {
+  background: rgb(249, 244, 244);
+  border-radius: 0.5rem;
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem;
+  flex-direction: column;
+}
+
+.claim .replies .render-container {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  background: rgb(249, 244, 244);
-  padding: 1rem;
-  border-radius: 0.5rem;
-  margin-top: 1.5rem;
 }
 
 .claim .replies h3 {
   text-align: center;
+  display: flex;
   margin-block: 0;
   font-weight: bold;
+}
+.claim .replies h3 span {
+  flex-grow: 1;
 }
 .claim .replies .reply-tag {
   color: var(--primary);
@@ -180,4 +188,16 @@
   border: 1px solid white;
   border-radius: 0.5rem;
   padding: 0.5rem;
+}
+
+.reply .header {
+  display: flex;
+  width: full;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex {
+  display: flex;
+  gap: 0.5rem;
 }

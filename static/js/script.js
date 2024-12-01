@@ -1,3 +1,11 @@
+const modalTriggerEventListener = () =>
+  $(".modal-trigger").click(function () {
+    console.log("clicked");
+    $(".modal").fadeOut();
+    const modalId = $(this).data("modal-id");
+
+    $(`.modal[data-modal-id='${modalId}']`).fadeIn();
+  });
 /*Utility functions*/
 const serializeFormData = (form) => {
   formArray = form.serializeArray();
@@ -61,12 +69,7 @@ $(document).ready(function () {
     window.location = window.location;
   });
 
-  $(".modal-trigger").click(function () {
-    $(".modal").fadeOut();
-    const modalId = $(this).data("modal-id");
-
-    $(`.modal[data-modal-id='${modalId}']`).fadeIn();
-  });
+  modalTriggerEventListener();
 
   $(".modal-overlay").click(function () {
     const modalId = $(this).data("modal-id");

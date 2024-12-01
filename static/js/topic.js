@@ -1,15 +1,21 @@
 $(document).ready(function () {
   const topicID = $("#data-div").data("topic-id");
   const previewCardImage = $("#data-div").data("preview-card-url");
-  const renderTopicName = () => {
-    $.get(`/get_specific_topic/${topicID}`, function (data, textStatus, jqXHR) {
+  const renderTopic = () => {
+    $.get("/get_all_topics", function (data, textStatus, jqXHR) {
       console.log(data);
       const topicsContainer = $(".claim-previews");
       topicsContainer.empty();
-      $(".topic-name").text(data.topicName);
+      let thisTopic = data.find((each) => each.topicID == topicID);
+
+      topicsContainer.empty();
+      $(".topic-name").text(thisTopic.topicName);
+      $("#user-info").append(
+        `Created by <a href="#" class="text-white">${thisTopic.userName}</a>`
+      );
     });
   };
-  renderTopicName();
+  renderTopic();
   const renderClaims = () => {
     $.get(
       `/get_claims_for_topic/${topicID}`,

@@ -300,6 +300,10 @@ button {
   display: flex;
   margin-block: 0;
 }
+.modal .scroll-view {
+  max-height: 500px;
+  overflow-y: auto;
+}
 .modal .title span {
   flex-grow: 1;
 }
