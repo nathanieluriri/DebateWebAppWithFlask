@@ -2,6 +2,7 @@
   --primary: rgb(41, 136, 192);
   --secondary: rgb(228, 228, 2);
   --foreground: rgb(91, 91, 91);
+  --danger: rgb(255, 19, 19);
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -12,7 +13,9 @@ body {
   color: var(--foreground);
   background-color: rgb(234, 244, 250);
 }
-
+form p {
+  font-size: small;
+}
 main {
   min-height: 70vh;
 }
@@ -36,6 +39,9 @@ button {
 .shadow {
   box-shadow: 0 1px 10px rgb(47, 45, 45);
 }
+.hidden {
+  display: none;
+}
 .w-full {
   width: 100%;
 }
@@ -48,18 +54,26 @@ button {
   border-color: var(--primary);
   background-color: var(--primary);
 }
-.btn-primary:hover {
-  background: var(--primary);
-}
 
 .btn-secondary {
   color: var(--secondary);
   border-color: var(--secondary);
   background-color: var(--secondary);
 }
+.btn-primary:hover {
+  background: var(--primary);
+}
 
 .btn-secondary:hover {
   background: var(--secondary);
+}
+.btn-danger {
+  color: var(--danger);
+  border-color: var(--danger);
+  background-color: var(--danger);
+}
+.btn-danger:hover {
+  background: var(--danger);
 }
 
 .btn-hollow {
@@ -206,18 +220,30 @@ button {
   flex-direction: column;
   transition: background-color 1s, color 1s;
   gap: 0.5px;
-  justify-content: center;
+  /* justify-content: center; */
   overflow: hidden;
 }
 
 .claim-preview-card:hover {
   background: var(--primary);
-  color: white;
+  color: white !important;
 }
-
+.claim-preview-card:hover a {
+  color: white !important;
+}
+.claim-preview-card .img-container {
+  height: 200px;
+}
+.claim-preview-card .text-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+.claim-preview-card .text-container h3 {
+  flex-grow: 1;
+}
 .claim-preview-card img {
   border-radius: 1.3rem;
-
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -227,6 +253,7 @@ button {
 }
 .claim-preview-card .date {
   font-size: smaller;
+  display: inline-block;
 }
 .claim-preview-card .stats {
   display: flex;
@@ -243,22 +270,27 @@ button {
 .modal {
   display: none;
 }
+.modal-trigger {
+  cursor: pointer;
+}
 .modal-overlay {
-  position: absolute;
+  position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.507);
   backdrop-filter: blur(2px);
+  z-index: 40;
 }
 .modal-body {
   inset: 50% 0 0 50%;
   transform: translateX(-50%) translateY(-50%);
-  position: absolute;
+  position: fixed;
   background-color: rgb(245, 247, 248);
   padding: 1rem;
   border-radius: 1rem;
   max-width: 400px;
+  z-index: 50;
   max-height: max-content;
 }
 .modal .title {
@@ -267,6 +299,10 @@ button {
   text-align: center;
   display: flex;
   margin-block: 0;
+}
+.modal .scroll-view {
+  max-height: 500px;
+  overflow-y: auto;
 }
 .modal .title span {
   flex-grow: 1;
@@ -292,13 +328,15 @@ button {
   color: var(--primary);
 }
 
-.form-control input {
+.form-control input,
+.form-control select {
   outline: 1px solid lightgray;
   padding: 0.5rem;
   border-radius: 0.5rem;
   border: none;
 }
-.form-control input:focus {
+.form-control input:focus,
+.form-control select:focus {
   outline: 1px solid var(--primary);
   padding: 0.5rem;
   border-radius: 0.5rem;
