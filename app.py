@@ -54,8 +54,9 @@ def claim(topic, claimpath):
 @app.route("/get_all_topics", methods=["GET"])
 def get_all_topics():
     query = """
-        SELECT topicID, topicName, postingUser, creationTime, updateTime 
-        FROM topic
+        SELECT t.topicID, t.topicName, t.postingUser, t.creationTime, t.updateTime, u.userName 
+        FROM topic t
+        LEFT JOIN user u ON t.postingUser = u.userID  
     """
     topics = query_db(query)
 
@@ -343,6 +344,7 @@ def get_claims_for_topic_endpoint(topicID):
             "creationTime": claim[3],
             "updateTime": claim[4],
             "text": claim[5],
+            "userName":claim[6]
         }
         for claim in claims
     ]

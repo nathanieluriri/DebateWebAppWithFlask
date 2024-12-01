@@ -8,17 +8,17 @@ def get_claims_for_topic(topicID):
     
     # SQL query to fetch all claims for the given topicID
     cursor.execute('''
-    SELECT c.claimID, c.topic, c.postingUser, c.creationTime, c.updateTime, c.text
-    
-    FROM claim c
-    WHERE c.topic = ? 
-    AND NOT EXISTS (
-        SELECT 1
-        FROM claimToClaim c2c
-        WHERE c2c.second = c.claimID
-    )
-    ORDER BY c.updateTime DESC;
-''', (topicID,))
+        SELECT c.claimID, c.topic, c.postingUser, c.creationTime, c.updateTime, c.text, u.userName
+        FROM claim c
+        LEFT JOIN user u ON c.postingUser = u.userID  -- Moved the JOIN outside of NOT EXISTS
+        WHERE c.topic = ? 
+        AND NOT EXISTS (
+            SELECT 1
+            FROM claimToClaim c2c
+            WHERE c2c.second = c.claimID  -- This subquery should only check for related claims
+        )
+        ORDER BY c.updateTime DESC;
+    ''', (topicID,))
 
     
     # Fetch all results
