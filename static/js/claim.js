@@ -3,7 +3,8 @@ $(document).ready(function () {
   const firstClaimID = $("#data-div").data("first-claim-id");
   const secondClaimID = $("#data-div").data("second-claim-id");
   const profileIconImage = $("#data-div").data("profile-icon-url");
-
+  console.log(firstClaimID);
+  console.log(secondClaimID);
   // const renderParentClaim = () => {
   //   $.get(`/get_related_claims/${topicID}`, function (data, textStatus, jqXHR) {
   //     console.log(data);
@@ -14,15 +15,47 @@ $(document).ready(function () {
   // };
   // renderParentClaim();
   const renderParentClaim = () => {
-    $.get(
-      `/get_claims_for_topic/${topicID}`,
-      function (data, textStatus, jqXHR) {
-        const container = $(".claim.main");
-        // topicsContainer.empty();
-        container.empty();
-        console.log(firstClaimID);
-        const thisClaim = data.find((each) => each.claimID == firstClaimID);
-        let content = `   
+    if (secondClaimID) {
+      $.post({
+        url: `/get_related_claims`,
+        data: JSON.stringify({ first_claim_id: firstClaimID }),
+        success: function (data, textStatus, jqXHR) {
+          const container = $(".claim.main");
+          // topicsContainer.empty();
+          container.empty();
+          const thisClaim = data.find((each) => each.claimId == secondClaimID);
+          let content = `   
+           <div class="header">
+          <div class="user">
+              <img
+              src="${profileIconImage}"
+              alt="user icon"
+              />
+              <div class="data">
+              <a href="#">${thisClaim.username}</a>
+              <span>${getDate(thisClaim.creationTime)}</span>
+              </div>
+          </div>
+        <button>30 Replies</button>
+      </div>
+      <h3>${thisClaim?.text}</h3>`;
+          console.log(thisClaim);
+
+          container.append(content);
+        },
+        contentType: "application/json", // Specify content type as JSON
+        dataType: "json", // Specify expected response data type
+      });
+    } else {
+      $.get(
+        `/get_claims_for_topic/${topicID}`,
+        function (data, textStatus, jqXHR) {
+          const container = $(".claim.main");
+          // topicsContainer.empty();
+          container.empty();
+          console.log(firstClaimID);
+          const thisClaim = data.find((each) => each.claimID == firstClaimID);
+          let content = `   
          <div class="header">
         <div class="user">
             <img
@@ -37,27 +70,148 @@ $(document).ready(function () {
       <button>30 Replies</button>
     </div>
     <h3>${thisClaim?.text}</h3>`;
-        console.log(thisClaim);
+          console.log(thisClaim);
 
-        container.append(content);
-      }
-    );
+          container.append(content);
+        }
+      );
+    }
   };
   renderParentClaim();
 
   const renderRelatedClaims = () => {
-    $.post({
-      url: "/get_related_claims",
-      data: JSON.stringify({ first_claim_id: firstClaimID }), // Send the JSON string as data
-      success: function (data, textStatus, jqXHR) {
-        console.log(data);
-      },
-      error: function (jqXHR) {
-        alert(jqXHR.responseJSON.error || "Something went wrong.");
-      },
-      contentType: "application/json", // Specify content type as JSON
-      dataType: "json", // Specify expected response data type
-    });
+    let relatedClaims = [];
+    let equivalentClaims = "";
+    let opposingClaims = "";
+    if (secondClaimID) {
+      $.post({
+        url: "/get_related_claims",
+        data: JSON.stringify({ first_claim_id: secondClaimID }), // Send the JSON string as data
+        success: function (data, textStatus, jqXHR) {
+          relatedClaims = data;
+          console.log(data);
+          relatedClaims.forEach((each, index, array) => {
+            if (each.relationshipType == "Equivalent") {
+              equivalentClaims += `      <div class="claim equivalent">
+                  <div class="header">
+                    <div class="user">
+                      <img
+                        src="${profileIconImage}"
+                        alt="user icon"
+                      />
+                      <div class="data">
+                        <a href="#">${each.username}</a>
+                        <span>${getDate(each.creationTime)}</span>
+                      </div>
+                    </div>
+          
+                    <button>30 Replies</button>
+                  </div>
+                  <h3 class="heading"><a href="/${topicID}/${
+                secondClaimID || firstClaimID
+              }/${each.claimId}">${each.text}</a></h3>
+                <div class='replies-cotainer hidden'>
+                <div class=" replies ">
+                </div>
+                </div>
+          
+                </>`;
+            } else {
+              opposingClaims += `   <div class="claim opposition">
+                  <div class="header">
+                    <div class="user">
+                      <img
+                        src="${profileIconImage}"
+                        alt="user icon"
+                      />
+                      <div class="data">
+                        <a href="#">${each.username}</a>
+                        <span>${getDate(each.creationTime)}</span>
+                      </div>
+                    </div>
+          
+                    <button>30 Replies</button>
+                  </div>
+                  <h3 class="heading"><a href="/${topicID}/${
+                secondClaimID || firstClaimID
+              }/${each.claimId}">${each.text}</a></h3>
+                </div>`;
+            }
+          });
+          $("#opposing-claims").append(opposingClaims);
+          $("#equivalent-claims").append(equivalentClaims);
+        },
+        error: function (jqXHR) {
+          alert(jqXHR.responseJSON.error || "Something went wrong.");
+        },
+        contentType: "application/json", // Specify content type as JSON
+        dataType: "json", // Specify expected response data type
+      });
+    } else {
+      $.post({
+        url: "/get_related_claims",
+        data: JSON.stringify({ first_claim_id: firstClaimID }), // Send the JSON string as data
+        success: function (data, textStatus, jqXHR) {
+          relatedClaims = data;
+          console.log(data);
+          relatedClaims.forEach((each, index, array) => {
+            if (each.relationshipType == "Equivalent") {
+              equivalentClaims += `      <div class="claim equivalent">
+                  <div class="header">
+                    <div class="user">
+                      <img
+                        src="${profileIconImage}"
+                        alt="user icon"
+                      />
+                      <div class="data">
+                        <a href="#">${each.username}</a>
+                        <span>${getDate(each.creationTime)}</span>
+                      </div>
+                    </div>
+          
+                    <button>30 Replies</button>
+                  </div>
+                  <h3 class="heading"><a href="/${topicID}/${
+                secondClaimID || firstClaimID
+              }/${each.claimId}">${each.text}</a></h3>
+                <div class='replies-cotainer hidden'>
+                <div class=" replies ">
+                </div>
+                </div>
+          
+                </>`;
+            } else {
+              opposingClaims += `   <div class="claim opposition">
+                  <div class="header">
+                    <div class="user">
+                      <img
+                        src="${profileIconImage}"
+                        alt="user icon"
+                      />
+                      <div class="data">
+                        <a href="#">${each.username}</a>
+                        <span>${getDate(each.creationTime)}</span>
+                      </div>
+                    </div>
+          
+                    <button>30 Replies</button>
+                  </div>
+                  <h3 class="heading"><a href="/${topicID}/${
+                secondClaimID || firstClaimID
+              }/${each.claimId}">${each.text}</a></h3>
+                </div>`;
+            }
+          });
+          $("#opposing-claims").append(opposingClaims);
+          $("#equivalent-claims").append(equivalentClaims);
+        },
+        error: function (jqXHR) {
+          alert(jqXHR.responseJSON.error || "Something went wrong.");
+        },
+        contentType: "application/json", // Specify content type as JSON
+        dataType: "json", // Specify expected response data type
+      });
+    }
   };
 
   renderRelatedClaims();
@@ -79,7 +233,7 @@ $(document).ready(function () {
     console.log("Serialized data:", data);
     data = JSON.parse(data);
     data.topicID = topicID;
-    data.first = firstClaimID;
+    data.claimID = secondClaimID || firstClaimID;
     data.userID = getCookie("userID");
     data = JSON.stringify(data);
     $.post({
@@ -89,7 +243,7 @@ $(document).ready(function () {
         thisForm[0].reset();
 
         alert("Claim Created Successfully");
-        renderClaims();
+        renderRelatedClaims();
       },
       error: function (jqXHR) {
         alert(jqXHR.responseJSON.error || "Something went wrong.");
