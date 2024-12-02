@@ -36,6 +36,7 @@ function setCookie(name, value, days = 7, path = "/") {
   document.cookie = `${name}=${value}; ${expires}; path=${path}`;
 }
 let isLoggedIn = Boolean(getCookie("userID"));
+console.log(isLoggedIn);
 
 const getDate = () => {
   // Replace with the desired timestamp
