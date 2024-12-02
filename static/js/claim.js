@@ -172,10 +172,8 @@ const addEventListeners = (renderFirstReplies, renderSecondReplies) => {
   //   view replies button event handler
   $(".view-reply-btn").on("click", function () {
     const trigger = $(this);
-    console.log(trigger[0]);
     const triggerID = trigger.data("reply-trigger-id");
     renderFirstReplies(triggerID).then(function (response) {
-      console.log(response);
       $(`[data-reply-container-id=${triggerID}]`).fadeIn();
       //   create reply modal button trigger event handler
       $(".add-first-reply-btn").on("click", function () {
@@ -224,7 +222,6 @@ const addEventListeners = (renderFirstReplies, renderSecondReplies) => {
 
             const triggerID = element.data("modal-reply-trigger-id");
             renderSecondReplies(triggerID, true).then(function (response) {
-              console.log(response);
               $(`[data-modal-id=view-sub-reply]`).fadeIn();
               // show hide button
             });
@@ -234,7 +231,6 @@ const addEventListeners = (renderFirstReplies, renderSecondReplies) => {
       });
       $(".add-sub-reply-btn").on("click", function () {
         $(".modal").fadeOut();
-        console.log("adf");
         const trigger = $(this);
         const triggerID = trigger.data("add-sub-reply-trigger-id");
 
@@ -259,13 +255,11 @@ const addEventListeners = (renderFirstReplies, renderSecondReplies) => {
         // show hide button
 
         //   create sub reply modal button trigger event handler
-        //   console.log("adfad");
         //   create sub reply modal button trigger event handler
         // });
       });
       //   hide sub replies button event handler
       $(".hide-sub-reply-btn").on("click", function () {
-        console.log("adf");
         const triggerID = $(this).data("sub-reply-trigger-id");
         $(`[data-sub-reply-container-id=${triggerID}]`).fadeOut();
         // $(this).hide();
@@ -280,7 +274,6 @@ const addEventListeners = (renderFirstReplies, renderSecondReplies) => {
   //   view replies button event handler
   //   hide replies button event handler
   $(".hide-reply-btn").on("click", function () {
-    console.log("adf");
     const triggerID = $(this).data("reply-trigger-id");
     $(`[data-reply-container-id=${triggerID}]`).fadeOut();
     // $(this).hide();
@@ -296,7 +289,6 @@ $(document).ready(function () {
 
   // const renderParentClaim = () => {
   //   $.get(`/get_related_claims/${topicID}`, function (data, textStatus, jqXHR) {
-  //     console.log(data);
   //     const topicsContainer = $(".claim-previews");
   //     topicsContainer.empty();
   //     $(".topic-name").text(data.topicName);
@@ -328,7 +320,6 @@ $(document).ready(function () {
         <button>View Replies</button>
       </div>
       <h3>${thisClaim?.text}</h3>`;
-          console.log(thisClaim);
 
           container.append(content);
         },
@@ -342,7 +333,6 @@ $(document).ready(function () {
           const container = $(".claim.main");
           // topicsContainer.empty();
           container.empty();
-          console.log(firstClaimID);
           const thisClaim = data.find((each) => each.claimID == firstClaimID);
           let content = `   
          <div class="header">
@@ -359,7 +349,6 @@ $(document).ready(function () {
       <button>View Replies</button>
     </div>
     <h3>${thisClaim?.text}</h3>`;
-          console.log(thisClaim);
 
           container.append(content);
         }
@@ -377,7 +366,6 @@ $(document).ready(function () {
       data: JSON.stringify({ first_claim_id: secondClaimID || firstClaimID }), // Send the JSON string as data
       success: function (data, textStatus, jqXHR) {
         relatedClaims = data;
-        console.log(data);
         relatedClaims.forEach((each, index, array) => {
           if (each.relationshipType == "Equivalent") {
             equivalentClaims += claimComponent({
@@ -414,7 +402,6 @@ $(document).ready(function () {
   renderRelatedClaims();
 
   $(".create-child-claim-btn").on("click", () => {
-    console.log("afad");
     if (isLoggedIn) {
       $("[data-modal-id='create-child-claim']").fadeIn();
     } else {
@@ -428,7 +415,6 @@ $(document).ready(function () {
     const thisForm = $(this);
     let data = serializeFormData(thisForm);
 
-    console.log("Serialized data:", data);
     data = JSON.parse(data);
     data.topicID = topicID;
     data.claimID = secondClaimID || firstClaimID;
@@ -456,7 +442,6 @@ $(document).ready(function () {
     const thisForm = $(this);
     let data = serializeFormData(thisForm);
 
-    console.log("Serialized data:", data);
     const claimID = $("#first-reply-modal-data-div").data("claim-id");
     data = JSON.parse(data);
     data.replyType = "claim";
@@ -486,14 +471,11 @@ $(document).ready(function () {
     const thisForm = $(this);
     let data = serializeFormData(thisForm);
 
-    console.log("Serialized data:", data);
     const parentID = $("#create-sub-reply-modal-data-div").data("parent-id");
-    console.log(parentID);
     data = JSON.parse(data);
     data.replyType = "reply";
     data.userID = getCookie("userID");
     data.parentReplyID = parentID;
-    console.log(data);
     data = JSON.stringify(data);
     $.post({
       url: "/create_reply",
@@ -507,7 +489,6 @@ $(document).ready(function () {
         alert("Reply created Successfully");
         renderSecondReplies(parentID, Boolean(modalBtn)).then(() => {
           if (modalBtn) {
-            console.log("fdasfas");
             $(".modal").fadeOut();
             $('[data-modal-id="view-sub-reply"]').fadeIn();
           }
@@ -532,7 +513,6 @@ $(document).ready(function () {
         );
         parent.empty();
         let content = "";
-        console.log(data);
         replies.forEach((each, index, array) => {
           content += firstLayerReplyComponent({
             imageURL: profileIconImage,
@@ -556,7 +536,6 @@ $(document).ready(function () {
     });
   };
   const renderSecondReplies = (parent_id, renderInModal = false) => {
-    console.log(renderInModal);
     return $.post({
       url: "/get_replies_by_parent_id",
       data: JSON.stringify({ parent_id }), // Send the JSON string as data
@@ -567,7 +546,6 @@ $(document).ready(function () {
           : $(`.modal-body .nested-replies`);
         parent.empty();
         let content = "";
-        console.log(data);
         replies.forEach((each, index, array) => {
           content += subLayerReplyComponent({
             imageURL: profileIconImage,
@@ -581,40 +559,42 @@ $(document).ready(function () {
 
         parent.append(content);
 
-        //   view sub replies button event handler
-        $(".view-modal-reply-btn").on("click", function () {
-          const element = $(this);
-          const replyID = element.data("modal-reply-trigger-id");
+        if (renderInModal) {
+          //   view sub replies button event handler
+          $(".view-modal-reply-btn").on("click", function () {
+            const element = $(this);
+            const replyID = element.data("modal-reply-trigger-id");
+            const thisReply = replies.find(
+              (each) => each.replyTextID == replyID
+            );
+            $("#modal-reply-username").html(thisReply?.parentUserName);
+            $("#modal-reply-to").html(thisReply?.parentUserName);
+            $("#modal-reply-creation-time").html(
+              getDate(thisReply?.creationTime)
+            );
+            $("#modal-reply-text").html(thisReply?.text);
+            $("#modal-reply-btn").attr(
+              "data-add-sub-reply-trigger-id",
+              thisReply.replyTextID
+            );
+            $("#modal-reply-btn").attr(
+              "data-reply-to",
+              thisReply?.parentUserName
+            );
+            $("#view-sub-reply-modal-data-div").attr(
+              "data-reply-data",
+              JSON.stringify(thisReply)
+            );
 
-          const thisReply = replies.find((each) => each.replyTextID == replyID);
-          $("#modal-reply-username").html(thisReply?.parentUserName);
-          $("#modal-reply-to").html(thisReply?.parentUserName);
-          $("#modal-reply-creation-time").html(
-            getDate(thisReply?.creationTime)
-          );
-          $("#modal-reply-text").html(thisReply?.text);
-          $("#modal-reply-btn").attr(
-            "data-add-sub-reply-trigger-id",
-            thisReply.replyTextID
-          );
-          $("#modal-reply-btn").attr(
-            "data-reply-to",
-            thisReply?.parentUserName
-          );
-          $("#view-sub-reply-modal-data-div").attr(
-            "data-reply-data",
-            JSON.stringify(thisReply)
-          );
-
-          const triggerID = element.data("modal-reply-trigger-id");
-          renderSecondReplies(triggerID, true).then(function (replies) {
-            console.log(replies);
-            $(`[data-modal-id=view-sub-reply]`).fadeIn();
-            // show hide button
+            const triggerID = element.data("modal-reply-trigger-id");
+            renderSecondReplies(triggerID, true).then(function (replies) {
+              $(`[data-modal-id=view-sub-reply]`).fadeIn();
+              // show hide button
+            });
           });
-        });
-        // View nested reply via modal UI
-        modalTriggerEventListener();
+          // View nested reply via modal UI
+        }
+        // modalTriggerEventListener();
       },
       error: function (jqXHR) {
         alert(jqXHR.responseJSON.error || "Something went wrong.");

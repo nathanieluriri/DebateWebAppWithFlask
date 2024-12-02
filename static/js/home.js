@@ -2,7 +2,6 @@ $(document).ready(function () {
   let isLoggedIn = Boolean(getCookie("isLoggedIn"));
   const renderTopics = () => {
     $.get("/get_all_topics", function (data, textStatus, jqXHR) {
-      console.log(data);
       const topicsContainer = $(".topics-section__topics");
       topicsContainer.empty();
       let content = "";
@@ -32,7 +31,6 @@ $(document).ready(function () {
     e.preventDefault();
     const thisForm = $(this);
     const data = serializeFormData(thisForm);
-    console.log("Serialized data:", data);
     $.post({
       url: "/create_topic",
       data: data, // Send the JSON string as data
