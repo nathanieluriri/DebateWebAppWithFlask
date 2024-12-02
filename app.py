@@ -70,8 +70,10 @@ def get_all_topics():
         LEFT JOIN user u ON t.postingUser = u.userID  
     """
     topics = query_db(query)
-    
-    if topics or topics==[]:
+
+
+    if topics or topics == []:
+
         return jsonify(topics)  # Return the list of topics as JSON
     else:
         return jsonify({"error": "No topics found"}), 404
@@ -81,9 +83,9 @@ def get_all_topics():
 @app.route("/create_topic", methods=["POST"])
 def create_topic():
     try:
-        if not session['userID']:
+        if not session["userID"]:
             print("_________________________________________________")
-            return redirect(url_for('home'))
+            return redirect(url_for("home"))
     except KeyError:
         return redirect(url_for("home"))
 
