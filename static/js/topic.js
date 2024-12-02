@@ -6,7 +6,7 @@ $(document).ready(function () {
       const topicsContainer = $(".claim-previews");
       topicsContainer.empty();
       let thisTopic = data.find((each) => each.topicID == topicID);
-
+      if (!thisTopic) window.location = "/page/not/found/404";
       topicsContainer.empty();
       $(".topic-name").text(thisTopic.topicName);
       $("#user-info").append(

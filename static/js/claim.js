@@ -312,6 +312,8 @@ $(document).ready(function () {
           // topicsContainer.empty();
           container.empty();
           const thisClaim = data.find((each) => each.claimId == secondClaimID);
+          if (!thisClaim) window.location = "/page/not/found/404";
+
           let content = `   
            <div class="header">
           <div class="user">
@@ -340,6 +342,7 @@ $(document).ready(function () {
           // topicsContainer.empty();
           container.empty();
           const thisClaim = data.find((each) => each.claimID == firstClaimID);
+          if (!thisClaim) window.location = "/page/not/found/404";
           let content = `   
          <div class="header">
         <div class="user">
