@@ -355,7 +355,6 @@ $(document).ready(function () {
             <span>${getDate(thisClaim.creationTime)}</span>
             </div>
         </div>
-      <button>View Replies</button>
     </div>
     <h3>${thisClaim?.text}</h3>`;
 

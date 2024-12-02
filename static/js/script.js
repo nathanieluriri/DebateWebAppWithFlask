@@ -38,9 +38,8 @@ function setCookie(name, value, days = 7, path = "/") {
 let isLoggedIn = Boolean(getCookie("userID"));
 console.log(isLoggedIn);
 
-const getDate = () => {
+const getDate = (timestamp) => {
   // Replace with the desired timestamp
-  const timestamp = 1732812437;
   const date = new Date(timestamp * 1000);
 
   // Format the date as MM/DD/YY
