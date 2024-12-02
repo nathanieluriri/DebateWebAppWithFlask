@@ -13,6 +13,15 @@ const firstLayerReplyComponent = ({
       <div class="data">
         <a href="#">${username}</a>
         <span>${getDate(creationTime)}</span>
+        <span class="${
+          reply?.relationshipType == "Clarification"
+            ? "badge-success"
+            : reply?.relationshipType == "Supporting Argument"
+            ? "badge-warning"
+            : reply?.relationshipType == "Counterargument"
+            ? "badge-danger"
+            : ""
+        }">${reply?.relationshipType}</span>
       </div>
     </div>
     <span clas="flex">
@@ -34,7 +43,7 @@ const firstLayerReplyComponent = ({
     </span>
   </div>
   <p>
-    <span class="reply-tag">@reply</span>
+    <span class="reply-tag">@${reply.parentUserName || "reply"}</span>
     ${text}
 
   </p>
@@ -49,6 +58,52 @@ const firstLayerReplyComponent = ({
   <div class="nested-replies" data-sub-reply-container-id=${reply.replyTextID}>
         
   </div>
+</div>
+
+`;
+const subLayerReplyComponent = ({
+  imageURL,
+  username,
+  claimID,
+  text,
+  reply,
+  creationTime,
+}) => `            <div class="nested-reply">
+  <div class="header">
+    <div class="user">
+      <img src="${imageURL}" alt="user icon" />
+      <div class="data">
+        <a href="#">${username}</a>
+        <span>${getDate(creationTime)}</span>
+        <span class="${
+          reply?.relationshipType == "Evidence"
+            ? "badge-success"
+            : reply?.relationshipType == "Support"
+            ? "badge-warning"
+            : reply?.relationshipType == "Rebuttal"
+            ? "badge-danger"
+            : ""
+        }">${reply?.relationshipType}</span>
+      </div>
+    </div>
+    <span clas="flex">
+
+    <button
+      class="view-modal-reply-btn"
+      type="button"
+      data-modal-reply-trigger-id="${reply?.replyTextID}"
+    >
+      View Replies
+    </button>
+    </span>
+  </div>
+  <p>
+    <span class="reply-tag text-primary">@${
+      reply.parentUserName || "reply"
+    }</span>
+    ${text}
+
+  </p>
 </div>
 
 `;
@@ -120,6 +175,7 @@ const addEventListeners = (renderFirstReplies, renderSecondReplies) => {
     console.log(trigger[0]);
     const triggerID = trigger.data("reply-trigger-id");
     renderFirstReplies(triggerID).then(function (response) {
+      console.log(response);
       $(`[data-reply-container-id=${triggerID}]`).fadeIn();
       //   create reply modal button trigger event handler
       $(".add-first-reply-btn").on("click", function () {
@@ -138,19 +194,58 @@ const addEventListeners = (renderFirstReplies, renderSecondReplies) => {
         const trigger = $(this);
         const triggerID = trigger.data("sub-reply-trigger-id");
         renderSecondReplies(triggerID).then(function (response) {
-          console.log(response);
           $(`[data-sub-reply-container-id=${triggerID}]`).fadeIn();
-          // show hide button
+          //   view sub replies button event handler
+          $(".view-modal-reply-btn").on("click", function () {
+            const element = $(this);
+            const replyID = element.data("modal-reply-trigger-id");
+
+            const thisReply = response.find(
+              (each) => each.replyTextID == replyID
+            );
+            $("#modal-reply-username").html(thisReply?.parentUserName);
+            $("#modal-reply-to").html(thisReply?.parentUserName);
+            $("#modal-reply-creation-time").html(
+              getDate(thisReply?.creationTime)
+            );
+            $("#modal-reply-text").html(thisReply?.text);
+            $("#modal-reply-btn").attr(
+              "data-add-sub-reply-trigger-id",
+              thisReply.replyTextID
+            );
+            $("#modal-reply-btn").attr(
+              "data-reply-to",
+              thisReply?.parentUserName
+            );
+            $("#view-sub-reply-modal-data-div").attr(
+              "data-reply-data",
+              JSON.stringify(thisReply)
+            );
+
+            const triggerID = element.data("modal-reply-trigger-id");
+            renderSecondReplies(triggerID, true).then(function (response) {
+              console.log(response);
+              $(`[data-modal-id=view-sub-reply]`).fadeIn();
+              // show hide button
+            });
+          });
+          // View nested reply via modal UI
         });
       });
       $(".add-sub-reply-btn").on("click", function () {
+        $(".modal").fadeOut();
         console.log("adf");
         const trigger = $(this);
         const triggerID = trigger.data("add-sub-reply-trigger-id");
 
         $("#create-sub-reply-modal-data-div").attr("data-parent-id", triggerID);
+
         $("#replyTo").text(trigger.data("reply-to"));
+
         if (isLoggedIn) {
+          if (trigger.is("#modal-reply-btn"))
+            trigger.attr("data-open-reply-modal-after", "true");
+          else $("#modal-reply-btn").attr("data-open-reply-modal-after", "");
           $("[data-modal-id='create-sub-reply']").fadeIn();
           $("#create-sub-reply-modal-data-div").attr(
             "data-parent-id",
@@ -168,20 +263,19 @@ const addEventListeners = (renderFirstReplies, renderSecondReplies) => {
         //   create sub reply modal button trigger event handler
         // });
       });
-    });
+      //   hide sub replies button event handler
+      $(".hide-sub-reply-btn").on("click", function () {
+        console.log("adf");
+        const triggerID = $(this).data("sub-reply-trigger-id");
+        $(`[data-sub-reply-container-id=${triggerID}]`).fadeOut();
+        // $(this).hide();
+        // show addview button
+        // $(`.view-sub-reply-btn[data-sub-reply-trigger-id=${triggerID}]`).fadeIn();
+      });
+      //   hide sub replies button event handler
 
-    //   view sub replies button event handler
-
-    //   hide sub replies button event handler
-    $(".hide-sub-reply-btn").on("click", function () {
-      console.log("adf");
-      const triggerID = $(this).data("sub-reply-trigger-id");
-      $(`[data-sub-reply-container-id=${triggerID}]`).fadeOut();
-      // $(this).hide();
-      // show addview button
-      // $(`.view-sub-reply-btn[data-sub-reply-trigger-id=${triggerID}]`).fadeIn();
+      // View nested reply via modal UI
     });
-    //   hide sub replies button event handler
   });
   //   view replies button event handler
   //   hide replies button event handler
@@ -307,7 +401,7 @@ $(document).ready(function () {
         });
         $("#opposing-claims").append(opposingClaims);
         $("#equivalent-claims").append(equivalentClaims);
-        addEventListeners(renderFirstReplies);
+        addEventListeners(renderFirstReplies, renderSecondReplies);
       },
       error: function (jqXHR) {
         alert(jqXHR.responseJSON.error || "Something went wrong.");
@@ -398,18 +492,26 @@ $(document).ready(function () {
     data = JSON.parse(data);
     data.replyType = "reply";
     data.userID = getCookie("userID");
-    data.parentID = parentID;
-    data.parentReplyID = getCookie("userID");
-    data = JSON.stringify(data);
+    data.parentReplyID = parentID;
     console.log(data);
+    data = JSON.stringify(data);
     $.post({
       url: "/create_reply",
       data: data, // Send the JSON string as data
       success: function (data, textStatus, jqXHR) {
         thisForm[0].reset();
+        const modalBtn = $(
+          "#modal-reply-btn[data-open-reply-modal-after='true']"
+        );
 
         alert("Reply created Successfully");
-        renderSecondReplies(parentID);
+        renderSecondReplies(parentID, Boolean(modalBtn)).then(() => {
+          if (modalBtn) {
+            console.log("fdasfas");
+            $(".modal").fadeOut();
+            $('[data-modal-id="view-sub-reply"]').fadeIn();
+          }
+        });
       },
       error: function (jqXHR) {
         alert(jqXHR.responseJSON.error || "Something went wrong.");
@@ -443,7 +545,7 @@ $(document).ready(function () {
         });
 
         parent.append(content);
-        addEventListeners(null, renderSecondReplies);
+        addEventListeners(renderFirstReplies, renderSecondReplies);
         modalTriggerEventListener();
       },
       error: function (jqXHR) {
@@ -453,20 +555,21 @@ $(document).ready(function () {
       dataType: "json", // Specify expected response data type
     });
   };
-  const renderSecondReplies = (parent_id) => {
+  const renderSecondReplies = (parent_id, renderInModal = false) => {
+    console.log(renderInModal);
     return $.post({
       url: "/get_replies_by_parent_id",
       data: JSON.stringify({ parent_id }), // Send the JSON string as data
       success: function (data, textStatus, jqXHR) {
         replies = data;
-        const parent = $(
-          `.nested-replies[data-sub-reply-container-id='${parent_id}']`
-        );
+        const parent = !renderInModal
+          ? $(`.nested-replies[data-sub-reply-container-id='${parent_id}']`)
+          : $(`.modal-body .nested-replies`);
         parent.empty();
         let content = "";
         console.log(data);
         replies.forEach((each, index, array) => {
-          content += firstLayerReplyComponent({
+          content += subLayerReplyComponent({
             imageURL: profileIconImage,
             username: each.userName,
             claimID: parent_id,
@@ -477,6 +580,40 @@ $(document).ready(function () {
         });
 
         parent.append(content);
+
+        //   view sub replies button event handler
+        $(".view-modal-reply-btn").on("click", function () {
+          const element = $(this);
+          const replyID = element.data("modal-reply-trigger-id");
+
+          const thisReply = replies.find((each) => each.replyTextID == replyID);
+          $("#modal-reply-username").html(thisReply?.parentUserName);
+          $("#modal-reply-to").html(thisReply?.parentUserName);
+          $("#modal-reply-creation-time").html(
+            getDate(thisReply?.creationTime)
+          );
+          $("#modal-reply-text").html(thisReply?.text);
+          $("#modal-reply-btn").attr(
+            "data-add-sub-reply-trigger-id",
+            thisReply.replyTextID
+          );
+          $("#modal-reply-btn").attr(
+            "data-reply-to",
+            thisReply?.parentUserName
+          );
+          $("#view-sub-reply-modal-data-div").attr(
+            "data-reply-data",
+            JSON.stringify(thisReply)
+          );
+
+          const triggerID = element.data("modal-reply-trigger-id");
+          renderSecondReplies(triggerID, true).then(function (replies) {
+            console.log(replies);
+            $(`[data-modal-id=view-sub-reply]`).fadeIn();
+            // show hide button
+          });
+        });
+        // View nested reply via modal UI
         modalTriggerEventListener();
       },
       error: function (jqXHR) {

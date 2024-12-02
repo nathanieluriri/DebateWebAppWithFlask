@@ -92,7 +92,7 @@ content %} {% block stylesheets %}
           <select name="relationshipType">
             <option value="Evidence">Evidence</option>
             <option value="Support">Support</option>
-            <option value="Rebutal">Rebutal</option>
+            <option value="Rebuttal">Rebuttal</option>
           </select>
         </label>
         <button type="submit" class="btn btn-primary text-white w-full mt-sm">
@@ -120,18 +120,30 @@ content %} {% block stylesheets %}
                 alt="user icon"
               />
               <div class="data">
-                <a href="#">Username</a>
-                <span>12/12/2024</span>
+                <a href="#" id="modal-reply-username">Username</a>
+                <span id="modal-reply-creation-time">12/12/2024</span>
               </div>
             </div>
-            <button class="btn btn-primary text-white">Add Reply</button>
+            <button
+              class="btn btn-primary text-white add-sub-reply-btn"
+              id="modal-reply-btn"
+              data-add-sub-reply-trigger-id=""
+              data-reply-to=""
+              data-open-reply-modal-after=""
+            >
+              Add Reply
+            </button>
           </div>
           <p>
-            <span class="reply-tag">@reply</span>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-            aspernatur quidem porro debitis tempore. Fugiat fuga vitae
-            perferendis? Officiis tenetur tempora repellendus placeat earum
-            facere molestiae!
+            <span class="reply-tag text-primary"
+              >@<span id="modal-reply-to"> reply </span>
+            </span>
+            <span id="modal-reply-text">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Recusandae aspernatur quidem porro debitis tempore. Fugiat fuga
+              vitae perferendis? Officiis tenetur tempora repellendus placeat
+              earum facere molestiae!
+            </span>
           </p>
           <div class="nested-replies">
             <div class="nested-reply">
@@ -216,118 +228,6 @@ content %} {% block stylesheets %}
       <div class="equivalent-header">
         <h3>Equivalent Claims</h3>
         <button class="create-child-claim-btn">Add +</button>
-      </div>
-      <div class="claim equivalent">
-        <div class="header">
-          <div class="user">
-            <img
-              src="{{url_for('static', filename='media/user-icon.svg')}}"
-              alt="user icon"
-            />
-            <div class="data">
-              <a href="#">Username</a>
-              <span>12/12/2024</span>
-            </div>
-          </div>
-
-          <button>30 Replies</button>
-        </div>
-        <h3 class="heading">Lorem ipsum dolor sit amet.</h3>
-
-        <div class="replies">
-          <h3>Replies</h3>
-          <div class="reply">
-            <div class="header">
-              <div class="user">
-                <img
-                  src="{{url_for('static', filename='media/user-icon.svg')}}"
-                  alt="user icon"
-                />
-                <div class="data">
-                  <a href="#">Username</a>
-                  <span>12/12/2024</span>
-                </div>
-              </div>
-              <button>15 Replies</button>
-            </div>
-            <p>
-              <span class="reply-tag">@reply</span>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Recusandae aspernatur quidem porro debitis tempore. Fugiat fuga
-              vitae perferendis? Officiis tenetur tempora repellendus placeat
-              earum facere molestiae!
-            </p>
-
-            <div class="nested-replies">
-              <div class="nested-reply">
-                <div class="header">
-                  <div class="user">
-                    <img
-                      src="{{url_for('static', filename='media/user-icon.svg')}}"
-                      alt="user icon"
-                    />
-                    <div class="data">
-                      <a href="#">Username</a>
-                      <span>12/12/2024</span>
-                    </div>
-                  </div>
-                  <button>Reply</button>
-                </div>
-                <p>
-                  <span class="reply-tag">@username</span>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Recusandae aspernatur quidem porro debitis tempore. Fugiat
-                  fuga vitae perferendis? Officiis tenetur tempora repellendus
-                  placeat earum facere molestiae!
-                </p>
-              </div>
-              <div class="nested-reply">
-                <div class="header">
-                  <div class="user">
-                    <img
-                      src="{{url_for('static', filename='media/user-icon.svg')}}"
-                      alt="user icon"
-                    />
-                    <div class="data">
-                      <a href="#">Username</a>
-                      <span>12/12/2024</span>
-                    </div>
-                  </div>
-                  <button>Reply</button>
-                </div>
-                <p>
-                  <span class="reply-tag">@username @second-username</span>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Recusandae aspernatur quidem porro debitis tempore. Fugiat
-                  fuga vitae perferendis? Officiis tenetur tempora repellendus
-                  placeat earum facere molestiae!
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="reply">
-            <div class="header">
-              <div class="user">
-                <img
-                  src="{{url_for('static', filename='media/user-icon.svg')}}"
-                  alt="user icon"
-                />
-                <div class="data">
-                  <a href="#">Username</a>
-                  <span>12/12/2024</span>
-                </div>
-              </div>
-              <button>15 Replies</button>
-            </div>
-            <p>
-              <span class="reply-tag">@reply</span>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Recusandae aspernatur quidem porro debitis tempore. Fugiat fuga
-              vitae perferendis? Officiis tenetur tempora repellendus placeat
-              earum facere molestiae!
-            </p>
-          </div>
-        </div>
       </div>
     </div>
     <div id="opposing-claims">

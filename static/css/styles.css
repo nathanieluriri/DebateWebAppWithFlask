@@ -45,6 +45,30 @@ button {
 .w-full {
   width: 100%;
 }
+.badge-success {
+  border-radius: 1.5rem;
+  border: 1px solid green;
+  padding: 0.2rem 0.5rem;
+  background: white;
+  color: green;
+  font-size: small;
+}
+.badge-danger {
+  border-radius: 1.5rem;
+  border: 1px solid red;
+  color: red;
+  padding: 0.2rem 0.5rem;
+  background: white;
+  font-size: small;
+}
+.badge-warning {
+  border-radius: 1.5rem;
+  border: 1px solid rgb(138, 138, 8);
+  color: rgb(138, 138, 8);
+  padding: 0.2rem 0.5rem;
+  background: white;
+  font-size: small;
+}
 .btn {
   padding: 0.4rem 0.6rem;
   border-radius: 0.5rem;
