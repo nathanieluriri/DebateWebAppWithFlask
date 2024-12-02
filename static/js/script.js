@@ -1,6 +1,5 @@
 const modalTriggerEventListener = () =>
   $(".modal-trigger").click(function () {
-    console.log("clicked");
     $(".modal").fadeOut();
     const modalId = $(this).data("modal-id");
 
@@ -86,7 +85,6 @@ $(document).ready(function () {
     e.preventDefault();
     const thisForm = $(this);
     const data = serializeFormData(thisForm);
-    console.log("Serialized data:", data);
     $.post({
       url: "/create_user",
       data: data, // Send the JSON string as data
@@ -108,13 +106,11 @@ $(document).ready(function () {
     e.preventDefault();
     const thisForm = $(this);
     const data = serializeFormData(thisForm);
-    console.log("Serialized data:", data);
     $.post({
       url: "/login",
       data: data, // Send the JSON string as data
       success: function (data, textStatus, jqXHR) {
         setCookie("userID", data.userID);
-        console.log(data);
         window.location = window.location;
         thisForm[0].reset();
         alert("Log in Successfull");

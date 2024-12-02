@@ -3,7 +3,6 @@ $(document).ready(function () {
   const previewCardImage = $("#data-div").data("preview-card-url");
   const renderTopic = () => {
     $.get("/get_all_topics", function (data, textStatus, jqXHR) {
-      console.log(data);
       const topicsContainer = $(".claim-previews");
       topicsContainer.empty();
       let thisTopic = data.find((each) => each.topicID == topicID);
@@ -20,7 +19,6 @@ $(document).ready(function () {
     $.get(
       `/get_claims_for_topic/${topicID}`,
       function (data, textStatus, jqXHR) {
-        console.log(data);
         const topicsContainer = $(".claim-previews");
         topicsContainer.empty();
         let content = "";
@@ -59,7 +57,6 @@ $(document).ready(function () {
     const thisForm = $(this);
     let data = serializeFormData(thisForm);
 
-    console.log("Serialized data:", data);
     data = JSON.parse(data);
     data.topicID = topicID;
     data.userID = getCookie("userID");
