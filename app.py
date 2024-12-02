@@ -71,8 +71,8 @@ def get_all_topics():
     """
     topics = query_db(query)
 
-
-    if topics or topics == []:
+    
+    if topics or topics==[]:
 
         return jsonify(topics)  # Return the list of topics as JSON
     else:
