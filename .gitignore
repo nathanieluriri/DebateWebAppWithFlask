@@ -64,7 +64,7 @@ cover/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-debate.sqlite
+
 # Flask stuff:
 instance/
 .webassets-cache
@@ -166,7 +166,7 @@ cython_debug/
 ### Python Patch ###
 # Poetry local configuration file - https://python-poetry.org/docs/configuration/#local-configuration
 poetry.toml
-debate.sqlite
+
 # ruff
 .ruff_cache/
 
