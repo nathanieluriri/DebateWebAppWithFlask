@@ -70,8 +70,8 @@ def get_all_topics():
         LEFT JOIN user u ON t.postingUser = u.userID  
     """
     topics = query_db(query)
-
-    if topics:
+    
+    if topics or topics==[]:
         return jsonify(topics)  # Return the list of topics as JSON
     else:
         return jsonify({"error": "No topics found"}), 404
