@@ -13,213 +13,144 @@ content %} {% block stylesheets %}
   data-profile-icon-url="{{url_for('static', filename='media/user-icon.svg')}}"
 ></div>
 
-<div class="container my-3">
-  <div class="claim main"></div>
-
-  <!-- Modals -->
-  <!-- Create Related Claim Modal -->
-  <div class="modal" data-modal-id="create-child-claim">
-    <div class="modal-overlay" data-modal-id="create-child-claim"></div>
-    <div class="modal-body">
-      <h3 class="title">
-        <span>Create Claim</span>
-        <button class="close-btn" data-modal-id="create-child-claim">X</button>
-      </h3>
-      <form id="create-child-claim-form">
-        <label for="" class="form-control">
-          <span class="label">Title</span>
-          <input type="text" name="text" />
-        </label>
-        <label for="" class="form-control">
-          <span class="label">Claim Relationship</span>
-          <select name="claimRelType">
-            <option value="Equivalent">Equivalent</option>
-            <option value="Opposing">Opposing</option>
-          </select>
-        </label>
-        <button type="submit" class="btn btn-primary text-white w-full mt-sm">
-          Submit
-        </button>
-      </form>
-    </div>
+<!-- Modals -->
+<!-- Create Related Claim Modal -->
+<div class="modal" data-modal-id="create-child-claim">
+  <div class="modal-overlay" data-modal-id="create-child-claim"></div>
+  <div class="modal-body">
+    <h3 class="title">
+      <span>Create Claim</span>
+      <button class="close-btn" data-modal-id="create-child-claim">X</button>
+    </h3>
+    <form id="create-child-claim-form">
+      <label for="" class="form-control">
+        <span class="label">Title</span>
+        <input type="text" name="text" />
+      </label>
+      <label for="" class="form-control">
+        <span class="label">Claim Relationship</span>
+        <select name="claimRelType">
+          <option value="Equivalent">Equivalent</option>
+          <option value="Opposing">Opposing</option>
+        </select>
+      </label>
+      <button type="submit" class="btn btn-primary text-white w-full mt-sm">
+        Submit
+      </button>
+    </form>
   </div>
-  <!-- Create Related Claim Modal -->
-  <!-- Create First Reply Modal -->
-  <div class="modal" data-modal-id="create-first-reply">
-    <div class="modal-overlay" data-modal-id="create-first-reply"></div>
-    <div class="modal-body">
-      <h3 class="title">
-        <span>Reply to Claim</span>
-        <button class="close-btn" data-modal-id="create-first-reply">X</button>
-      </h3>
-      <div id="first-reply-modal-data-div" data-claim-id=""></div>
-      <form id="create-first-reply-form">
-        <label for="" class="form-control">
-          <span class="label">Text</span>
-          <input type="text" name="text" />
-        </label>
-        <label for="" class="form-control">
-          <span class="label">Relationship</span>
-          <select name="relationshipType">
-            <option value="Clarification">Clarification</option>
-            <option value="Supporting Argument">Supporting Argument</option>
-            <option value="Counterargument">Counterargument</option>
-          </select>
-        </label>
-        <button type="submit" class="btn btn-primary text-white w-full mt-sm">
-          Submit
-        </button>
-      </form>
-    </div>
+</div>
+<!-- Create Related Claim Modal -->
+<!-- Create First Reply Modal -->
+<div class="modal" data-modal-id="create-first-reply">
+  <div class="modal-overlay" data-modal-id="create-first-reply"></div>
+  <div class="modal-body">
+    <h3 class="title">
+      <span>Reply to Claim</span>
+      <button class="close-btn" data-modal-id="create-first-reply">X</button>
+    </h3>
+    <div id="first-reply-modal-data-div" data-claim-id=""></div>
+    <form id="create-first-reply-form">
+      <label for="" class="form-control">
+        <span class="label">Text</span>
+        <input type="text" name="text" />
+      </label>
+      <label for="" class="form-control">
+        <span class="label">Relationship</span>
+        <select name="relationshipType">
+          <option value="Clarification">Clarification</option>
+          <option value="Supporting Argument">Supporting Argument</option>
+          <option value="Counterargument">Counterargument</option>
+        </select>
+      </label>
+      <button type="submit" class="btn btn-primary text-white w-full mt-sm">
+        Submit
+      </button>
+    </form>
   </div>
-  <!-- Create First Reply Modal -->
-  <!-- Create Sub Reply Modal -->
-  <div class="modal" data-modal-id="create-sub-reply">
-    <div class="modal-overlay" data-modal-id="create-sub-reply"></div>
-    <div class="modal-body">
-      <h3 class="title">
-        <span>Reply to @<span id="replyTo"></span></span>
-        <button class="close-btn" data-modal-id="create-sub-reply">X</button>
-      </h3>
-      <div id="create-sub-reply-modal-data-div" data-parent-id=""></div>
-      <form id="create-sub-reply-form">
-        <label for="" class="form-control">
-          <span class="label">Text</span>
-          <input type="text" name="text" />
-        </label>
-        <label for="" class="form-control">
-          <span class="label">Relationship</span>
-          <select name="relationshipType">
-            <option value="Evidence">Evidence</option>
-            <option value="Support">Support</option>
-            <option value="Rebuttal">Rebuttal</option>
-          </select>
-        </label>
-        <button type="submit" class="btn btn-primary text-white w-full mt-sm">
-          Submit
-        </button>
-      </form>
-    </div>
+</div>
+<!-- Create First Reply Modal -->
+<!-- Create Sub Reply Modal -->
+<div class="modal" data-modal-id="create-sub-reply">
+  <div class="modal-overlay" data-modal-id="create-sub-reply"></div>
+  <div class="modal-body">
+    <h3 class="title">
+      <span>Reply to @<span id="replyTo"></span></span>
+      <button class="close-btn" data-modal-id="create-sub-reply">X</button>
+    </h3>
+    <div id="create-sub-reply-modal-data-div" data-parent-id=""></div>
+    <form id="create-sub-reply-form">
+      <label for="" class="form-control">
+        <span class="label">Text</span>
+        <input type="text" name="text" />
+      </label>
+      <label for="" class="form-control">
+        <span class="label">Relationship</span>
+        <select name="relationshipType">
+          <option value="Evidence">Evidence</option>
+          <option value="Support">Support</option>
+          <option value="Rebuttal">Rebuttal</option>
+        </select>
+      </label>
+      <button type="submit" class="btn btn-primary text-white w-full mt-sm">
+        Submit
+      </button>
+    </form>
   </div>
-  <!-- Create Sub Reply Modal -->
-  <!-- View sub Reply Modal -->
-  <div class="modal" data-modal-id="view-sub-reply">
-    <div class="modal-overlay" data-modal-id="view-sub-reply"></div>
-    <div class="modal-body">
-      <h3 class="title">
-        <span>View Replies</span>
-        <button class="close-btn" data-modal-id="view-sub-reply">X</button>
-      </h3>
-      <div id="view-sub-reply-modal-data-div" data-claim-id=""></div>
-      <div class="scroll-view">
-        <div class="reply">
-          <div class="header">
-            <div class="user">
-              <img
-                src="{{url_for('static', filename='media/user-icon.svg')}}"
-                alt="user icon"
-              />
-              <div class="data">
-                <a href="#" id="modal-reply-username">Username</a>
-                <span id="modal-reply-creation-time">12/12/2024</span>
-              </div>
-            </div>
-            <button
-              class="btn btn-primary text-white add-sub-reply-btn"
-              id="modal-reply-btn"
-              data-add-sub-reply-trigger-id=""
-              data-reply-to=""
-              data-open-reply-modal-after=""
-            >
-              Add Reply
-            </button>
-          </div>
-          <p>
-            <span class="reply-tag text-primary"
-              >@<span id="modal-reply-to"> reply </span>
-            </span>
-            <span id="modal-reply-text">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Recusandae aspernatur quidem porro debitis tempore. Fugiat fuga
-              vitae perferendis? Officiis tenetur tempora repellendus placeat
-              earum facere molestiae!
-            </span>
-          </p>
-          <div class="nested-replies">
-            <div class="nested-reply">
-              <div class="header">
-                <div class="user">
-                  <img
-                    src="{{url_for('static', filename='media/user-icon.svg')}}"
-                    alt="user icon"
-                  />
-                  <div class="data">
-                    <a href="#">Username</a>
-                    <span>12/12/2024</span>
-                  </div>
-                </div>
-                <button class="modal-trigger" data-modal-id="view-second-reply">
-                  View Replies
-                </button>
-              </div>
-              <p>
-                <span class="reply-tag">@username</span>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Recusandae aspernatur quidem porro debitis tempore. Fugiat fuga
-                vitae perferendis? Officiis tenetur tempora repellendus placeat
-                earum facere molestiae!
-              </p>
-            </div>
-            <div class="nested-reply">
-              <div class="header">
-                <div class="user">
-                  <img
-                    src="{{url_for('static', filename='media/user-icon.svg')}}"
-                    alt="user icon"
-                  />
-                  <div class="data">
-                    <a href="#">Username</a>
-                    <span>12/12/2024</span>
-                  </div>
-                </div>
-                <button>Reply</button>
-              </div>
-              <p>
-                <span class="reply-tag">@username</span>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Recusandae aspernatur quidem porro debitis tempore. Fugiat fuga
-                vitae perferendis? Officiis tenetur tempora repellendus placeat
-                earum facere molestiae!
-              </p>
-            </div>
-            <div class="nested-reply">
-              <div class="header">
-                <div class="user">
-                  <img
-                    src="{{url_for('static', filename='media/user-icon.svg')}}"
-                    alt="user icon"
-                  />
-                  <div class="data">
-                    <a href="#">Username</a>
-                    <span>12/12/2024</span>
-                  </div>
-                </div>
-                <button>Reply</button>
-              </div>
-              <p>
-                <span class="reply-tag">@username @second-username</span>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Recusandae aspernatur quidem porro debitis tempore. Fugiat fuga
-                vitae perferendis? Officiis tenetur tempora repellendus placeat
-                earum facere molestiae!
-              </p>
+</div>
+<!-- Create Sub Reply Modal -->
+<!-- View sub Reply Modal -->
+<div class="modal" data-modal-id="view-sub-reply">
+  <div class="modal-overlay" data-modal-id="view-sub-reply"></div>
+  <div class="modal-body">
+    <h3 class="title">
+      <span>View Replies</span>
+      <button class="close-btn" data-modal-id="view-sub-reply">X</button>
+    </h3>
+    <div id="view-sub-reply-modal-data-div" data-claim-id=""></div>
+    <div class="scroll-view">
+      <div class="reply">
+        <div class="header">
+          <div class="user">
+            <img
+              src="{{url_for('static', filename='media/user-icon.svg')}}"
+              alt="user icon"
+            />
+            <div class="data">
+              <a href="#" id="modal-reply-username">Username</a>
+              <span id="modal-reply-creation-time">12/12/2024</span>
             </div>
           </div>
+          <button
+            class="btn btn-primary text-white add-sub-reply-btn"
+            id="modal-reply-btn"
+            data-add-sub-reply-trigger-id=""
+            data-reply-to=""
+            data-open-reply-modal-after=""
+          >
+            Add Reply
+          </button>
         </div>
+        <p>
+          <span class="reply-tag text-primary"
+            >@<span id="modal-reply-to"> reply </span>
+          </span>
+          <span id="modal-reply-text">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
+            aspernatur quidem porro debitis tempore. Fugiat fuga vitae
+            perferendis? Officiis tenetur tempora repellendus placeat earum
+            facere molestiae!
+          </span>
+        </p>
+        <div class="nested-replies"></div>
       </div>
     </div>
   </div>
-  <!-- View Second Reply Modal -->
+</div>
+<!-- View Second Reply Modal -->
+
+<div class="container my-3">
+  <div class="claim main"></div>
 
   <!-- Modals -->
 
@@ -229,119 +160,17 @@ content %} {% block stylesheets %}
         <h3>Equivalent Claims</h3>
         <button class="create-child-claim-btn">Add +</button>
       </div>
+      <div class="render-container"></div>
     </div>
     <div id="opposing-claims">
       <div class="opposing-header">
         <h3>Opposing Claims</h3>
         <button class="create-child-claim-btn">Add +</button>
       </div>
+      <div class="render-container"></div>
     </div>
   </div>
 </div>
 {% endblock %} {%block scripts%}
 <script src="{{url_for('static',filename='js/claim.js')}}"></script>
 {%endblock%}
-
-<!-- <div class="reply">
-  <div class="header">
-    <div class="user">
-      <img src="${imageURL}" alt="user icon" />
-      <div class="data">
-        <a href="#">${username}</a>
-        <span>12/12/2024</span>
-      </div>
-    </div>
-    <button class="reply-to-reply-btn" data-claim-id="${claimID}">
-      View Replies
-    </button>
-  </div>
-  <p>
-    <span class="reply-tag">@reply</span>
-    ${text}
-  </p>
-
-  <div class="nested-replies">
-    <div class="nested-reply">
-      <div class="header">
-        <div class="user">
-          <img
-            src="{{url_for('static', filename='media/user-icon.svg')}}"
-            alt="user icon"
-          />
-          <div class="data">
-            <a href="#">Username</a>
-            <span>12/12/2024</span>
-          </div>
-        </div>
-        <button>Reply</button>
-      </div>
-      <p>
-        <span class="reply-tag">@username</span>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-        aspernatur quidem porro debitis tempore. Fugiat fuga vitae perferendis?
-        Officiis tenetur tempora repellendus placeat earum facere molestiae!
-      </p>
-    </div>
-  </div>
-</div> -->
-
-<!-- <div class="claim ${type}">
-  <div class="header">
-    <div class="user">
-      <img src="${image}" alt="user icon" />
-      <div class="data">
-        <a href="#">${claim.username}</a>
-        <span>${getDate(claim.creationTime)}</span>
-      </div>
-    </div>
-
-    <button
-      class="view-reply-btn"
-      type="button"
-      data-reply-trigger-id="${
-      claim.claimId
-    }"
-    >
-      View Replies
-    </button>
-    <button
-      type="button"
-      class="hidden hide-reply-btn"
-      data-reply-trigger-id="${
-      claim.claimId
-    }"
-    >
-      Hide Replies
-    </button>
-  </div>
-  <h3 class="heading">
-    <a
-      href="/${topicID}/${
-secondClaimID || firstClaimID
-}/${claim.claimId}"
-      >${claim.text}</a
-    >
-  </h3>
-
-  <div
-    class="replies-cotainer hidden"
-    data-reply-container-id="${
-  claim.claimId
-}"
-  >
-    <div class="replies">
-      <h3>
-        <span>Replies</span>
-        <button
-          class="btn btn-primary text-white add-first-reply-btn"
-          data-first-reply-claim-id="${
-  claim.claimId
-}"
-        >
-          Add Reply
-        </button>
-      </h3>
-      <div class="render-container" data-claim-id="${ claim.claimId }"></div>
-    </div>
-  </div>
-</div> -->
