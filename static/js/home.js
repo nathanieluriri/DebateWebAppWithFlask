@@ -1,5 +1,4 @@
 $(document).ready(function () {
-  let isLoggedIn = Boolean(getCookie("isLoggedIn"));
   const renderTopics = () => {
     $.get("/get_all_topics", function (data, textStatus, jqXHR) {
       const topicsContainer = $(".topics-section__topics");
