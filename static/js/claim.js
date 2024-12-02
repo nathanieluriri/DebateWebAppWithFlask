@@ -186,87 +186,92 @@ const addEventListeners = (renderFirstReplies, renderSecondReplies) => {
         }
       });
       //   create reply modal button trigger event handler
+      if (renderSecondReplies) {
+        console.log("afdasdf");
+        //   view sub replies button event handler
+        $(".view-sub-reply-btn").on("click", function () {
+          const trigger = $(this);
+          const triggerID = trigger.data("sub-reply-trigger-id");
+          renderSecondReplies(triggerID).then(function (response) {
+            $(`[data-sub-reply-container-id=${triggerID}]`).fadeIn();
+            //   view sub replies button event handler
+            $(".view-modal-reply-btn").on("click", function () {
+              const element = $(this);
+              const replyID = element.data("modal-reply-trigger-id");
 
-      //   view sub replies button event handler
-      $(".view-sub-reply-btn").on("click", function () {
-        const trigger = $(this);
-        const triggerID = trigger.data("sub-reply-trigger-id");
-        renderSecondReplies(triggerID).then(function (response) {
-          $(`[data-sub-reply-container-id=${triggerID}]`).fadeIn();
-          //   view sub replies button event handler
-          $(".view-modal-reply-btn").on("click", function () {
-            const element = $(this);
-            const replyID = element.data("modal-reply-trigger-id");
+              const thisReply = response.find(
+                (each) => each.replyTextID == replyID
+              );
+              $("#modal-reply-username").html(thisReply?.parentUserName);
+              $("#modal-reply-to").html(thisReply?.parentUserName);
+              $("#modal-reply-creation-time").html(
+                getDate(thisReply?.creationTime)
+              );
+              $("#modal-reply-text").html(thisReply?.text);
+              $("#modal-reply-btn").attr(
+                "data-add-sub-reply-trigger-id",
+                thisReply.replyTextID
+              );
+              $("#modal-reply-btn").attr(
+                "data-reply-to",
+                thisReply?.parentUserName
+              );
+              $("#view-sub-reply-modal-data-div").attr(
+                "data-reply-data",
+                JSON.stringify(thisReply)
+              );
 
-            const thisReply = response.find(
-              (each) => each.replyTextID == replyID
-            );
-            $("#modal-reply-username").html(thisReply?.parentUserName);
-            $("#modal-reply-to").html(thisReply?.parentUserName);
-            $("#modal-reply-creation-time").html(
-              getDate(thisReply?.creationTime)
-            );
-            $("#modal-reply-text").html(thisReply?.text);
-            $("#modal-reply-btn").attr(
-              "data-add-sub-reply-trigger-id",
-              thisReply.replyTextID
-            );
-            $("#modal-reply-btn").attr(
-              "data-reply-to",
-              thisReply?.parentUserName
-            );
-            $("#view-sub-reply-modal-data-div").attr(
-              "data-reply-data",
-              JSON.stringify(thisReply)
-            );
-
-            const triggerID = element.data("modal-reply-trigger-id");
-            renderSecondReplies(triggerID, true).then(function (response) {
-              $(`[data-modal-id=view-sub-reply]`).fadeIn();
-              // show hide button
+              const triggerID = element.data("modal-reply-trigger-id");
+              renderSecondReplies(triggerID, true).then(function (response) {
+                $(`[data-modal-id=view-sub-reply]`).fadeIn();
+                // show hide button
+              });
             });
+            // View nested reply via modal UI
           });
-          // View nested reply via modal UI
         });
-      });
-      $(".add-sub-reply-btn").on("click", function () {
-        $(".modal").fadeOut();
-        const trigger = $(this);
-        const triggerID = trigger.data("add-sub-reply-trigger-id");
+        $(".add-sub-reply-btn").on("click", function () {
+          $(".modal").fadeOut();
+          const trigger = $(this);
+          const triggerID = trigger.data("add-sub-reply-trigger-id");
 
-        $("#create-sub-reply-modal-data-div").attr("data-parent-id", triggerID);
-
-        $("#replyTo").text(trigger.data("reply-to"));
-
-        if (isLoggedIn) {
-          if (trigger.is("#modal-reply-btn"))
-            trigger.attr("data-open-reply-modal-after", "true");
-          else $("#modal-reply-btn").attr("data-open-reply-modal-after", "");
-          $("[data-modal-id='create-sub-reply']").fadeIn();
           $("#create-sub-reply-modal-data-div").attr(
             "data-parent-id",
             triggerID
           );
-        } else {
-          $("[data-modal-id='login']").fadeIn();
-        }
-        // renderSecondReplies(triggerID).then(function (response) {
-        //   $(`[data-sub-reply-container-id=${triggerID}]`).fadeIn();
-        // show hide button
 
-        //   create sub reply modal button trigger event handler
-        //   create sub reply modal button trigger event handler
-        // });
-      });
-      //   hide sub replies button event handler
-      $(".hide-sub-reply-btn").on("click", function () {
-        const triggerID = $(this).data("sub-reply-trigger-id");
-        $(`[data-sub-reply-container-id=${triggerID}]`).fadeOut();
-        // $(this).hide();
-        // show addview button
-        // $(`.view-sub-reply-btn[data-sub-reply-trigger-id=${triggerID}]`).fadeIn();
-      });
-      //   hide sub replies button event handler
+          $("#replyTo").text(trigger.data("reply-to"));
+
+          if (isLoggedIn) {
+            if (trigger.is("#modal-reply-btn"))
+              trigger.attr("data-open-reply-modal-after", "true");
+            else $("#modal-reply-btn").attr("data-open-reply-modal-after", "");
+            $("[data-modal-id='create-sub-reply']").fadeIn();
+            $("#create-sub-reply-modal-data-div").attr(
+              "data-parent-id",
+              triggerID
+            );
+          } else {
+            $("[data-modal-id='login']").fadeIn();
+          }
+          // renderSecondReplies(triggerID).then(function (response) {
+          //   $(`[data-sub-reply-container-id=${triggerID}]`).fadeIn();
+          // show hide button
+
+          //   create sub reply modal button trigger event handler
+          //   create sub reply modal button trigger event handler
+          // });
+        });
+        //   hide sub replies button event handler
+        $(".hide-sub-reply-btn").on("click", function () {
+          const triggerID = $(this).data("sub-reply-trigger-id");
+          $(`[data-sub-reply-container-id=${triggerID}]`).fadeOut();
+          // $(this).hide();
+          // show addview button
+          // $(`.view-sub-reply-btn[data-sub-reply-trigger-id=${triggerID}]`).fadeIn();
+        });
+        //   hide sub replies button event handler
+      }
 
       // View nested reply via modal UI
     });
@@ -282,6 +287,8 @@ const addEventListeners = (renderFirstReplies, renderSecondReplies) => {
   });
 };
 $(document).ready(function () {
+  const previousPage = document.referrer;
+  $("#back-btn").attr("href", previousPage);
   const topicID = $("#data-div").data("topic-id");
   const firstClaimID = $("#data-div").data("first-claim-id");
   const secondClaimID = $("#data-div").data("second-claim-id");
@@ -317,7 +324,6 @@ $(document).ready(function () {
               <span>${getDate(thisClaim.creationTime)}</span>
               </div>
           </div>
-        <button>View Replies</button>
       </div>
       <h3>${thisClaim?.text}</h3>`;
 
@@ -365,6 +371,9 @@ $(document).ready(function () {
       url: "/get_related_claims",
       data: JSON.stringify({ first_claim_id: secondClaimID || firstClaimID }), // Send the JSON string as data
       success: function (data, textStatus, jqXHR) {
+        $("#opposing-claims .render-container").empty();
+        $("#equivalent-claims .render-container").empty();
+
         relatedClaims = data;
         relatedClaims.forEach((each, index, array) => {
           if (each.relationshipType == "Equivalent") {
@@ -387,9 +396,9 @@ $(document).ready(function () {
             });
           }
         });
-        $("#opposing-claims").append(opposingClaims);
-        $("#equivalent-claims").append(equivalentClaims);
-        addEventListeners(renderFirstReplies, renderSecondReplies);
+        $("#opposing-claims .render-container").append(opposingClaims);
+        $("#equivalent-claims .render-container").append(equivalentClaims);
+        addEventListeners(renderFirstReplies, null);
       },
       error: function (jqXHR) {
         alert(jqXHR.responseJSON.error || "Something went wrong.");
@@ -414,10 +423,10 @@ $(document).ready(function () {
     e.preventDefault();
     const thisForm = $(this);
     let data = serializeFormData(thisForm);
-
+    const claimID = secondClaimID || firstClaimID;
     data = JSON.parse(data);
     data.topicID = topicID;
-    data.claimID = secondClaimID || firstClaimID;
+    data.claimID = claimID;
     data.userID = getCookie("userID");
     data = JSON.stringify(data);
     $.post({
@@ -427,7 +436,7 @@ $(document).ready(function () {
         thisForm[0].reset();
 
         alert("Claim Created Successfully");
-        renderFirstReplies(claimID);
+        renderRelatedClaims();
       },
       error: function (jqXHR) {
         alert(jqXHR.responseJSON.error || "Something went wrong.");
@@ -524,6 +533,7 @@ $(document).ready(function () {
           });
         });
 
+        console.log(content);
         parent.append(content);
         addEventListeners(renderFirstReplies, renderSecondReplies);
         modalTriggerEventListener();
