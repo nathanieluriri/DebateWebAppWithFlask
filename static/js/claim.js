@@ -97,7 +97,7 @@ const subLayerReplyComponent = ({
       data-modal-reply-trigger-id="${reply?.replyTextID}"
       data-reply-data='${JSON.stringify(reply)}'
     >
-      View Repliesdafa
+      View Replies
     </button>
     </span>
   </div>
